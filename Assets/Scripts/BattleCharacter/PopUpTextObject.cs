@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.XR.WSA.Input;
 
-public class DamageTextObject : MonoBehaviour
+public class PopUpTextObject : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private RectTransform _rectTransform;

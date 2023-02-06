@@ -30,7 +30,7 @@ public class BattleCharacterUI : MonoBehaviour
     private Vector3 _characterImgHitStartScale;
     private Timer _characterImgScaleTimer;
 
-    private List<DamageTextObject> _damageTexts = new List<DamageTextObject>();
+    private List<PopUpTextObject> _damageTexts = new List<PopUpTextObject>();
     private void Awake()
     {
         _characterImgScaleTimer = this.gameObject.AddComponent<Timer>();
@@ -120,7 +120,7 @@ public class BattleCharacterUI : MonoBehaviour
     }
     private void ShowDamageText(string val)
     {
-        DamageTextObject damageText = null;
+        PopUpTextObject damageText = null;
         for (int i = 0; i < _damageTexts.Count; i++)
         {
             if (_damageTexts[i].IsShowing() == false)
@@ -131,7 +131,7 @@ public class BattleCharacterUI : MonoBehaviour
         }
         if (damageText == null)
         {
-            damageText = Instantiate(_damageTextPrefub, _damageTextSpawnPool).GetComponent<DamageTextObject>();
+            damageText = Instantiate(_damageTextPrefub, _damageTextSpawnPool).GetComponent<PopUpTextObject>();
             _damageTexts.Add(damageText);
         }
         damageText.ShowText(val, _damageTextSpawnPos.position);
