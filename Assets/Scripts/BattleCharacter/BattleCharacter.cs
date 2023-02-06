@@ -30,7 +30,7 @@ public class BattleCharacter : MonoBehaviour
         _maxHP = 100;
         _hp = _maxHP;
         _damage = 10;
-        _deffence = 100;
+        _deffence = 30;
         _attackSpeed = 60;
 
         _battleCharacterUI.SetStartValues(_hp, _maxHP, _damage, _deffence, _attackSpeed);
@@ -78,14 +78,14 @@ public class BattleCharacter : MonoBehaviour
                 val = val - val * _deffence / 100;
             }
         }
+        _battleCharacterUI.ShowDamageEffect(_hp, val);
         _hp -= val;
         if (_hp <= 0)
         {
             _hp = 0;
             _aliveState = AliveState.Dead;
         }
-        _battleCharacterUI.ShowDamageEffect(val);
-        _battleCharacterUI.SetHP(_hp);
+        _battleCharacterUI.SetHP(_hp, true);
     }
     public bool IsAlive()
     {

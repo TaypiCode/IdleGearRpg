@@ -64,16 +64,18 @@ public class BattleCharacterUI : MonoBehaviour
     {
         _maxHP = maxHP;
         _hpSlider.maxValue = maxHP;
-        SetHP(hp);
+        SetHP(hp, false);
         SetStatDamageText(damage, false);
         SetStatDeffenceText(deffence, false);
         SetStatAttackSpeedText(attackSpeed, false);
     }
-    public void SetHP(float val)
+    public void SetHP(float val, bool animUsed)
     {
-        _currentHPAnim = val;
-        _endHPAnim = val;
-        _hpSlider.value = val;
+        if (animUsed == false)
+        {
+            _hpSlider.value = val;
+            _currentHPAnim = val;
+        }
         _hpText.text = Mathf.RoundToInt(val) + "/" + Mathf.RoundToInt(_maxHP);
 
     }
@@ -98,13 +100,11 @@ public class BattleCharacterUI : MonoBehaviour
             _attackSpeedText.text = ConvertToFormat(val);
         }
     }
-    public void ShowDamageEffect(float val)
+    public void ShowDamageEffect(float fromHP, float damage)
     {
-        _currentHPAnim = val;
-        _endHPAnim = val;
-        _hpSlider.value = val;
+        _endHPAnim = fromHP - damage;
         _needAnimHP = true;
-        ShowDamageText(val.ToString());
+        ShowDamageText(damage.ToString());
         ShowHitAnim();
     }
     private void ShowHitAnim()
