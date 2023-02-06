@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class BattleCharacter : MonoBehaviour
 {
@@ -18,19 +19,22 @@ public class BattleCharacter : MonoBehaviour
     }
 
     private Timer _attackTimer;
+    private void Awake()
+    {
+        _attackTimer = this.gameObject.AddComponent<Timer>();
+    }
     private void Start()
     {
         _aliveState = AliveState.Alive;
         //get static data from menu
-        _maxHP = 5;
+        _maxHP = 100;
         _hp = _maxHP;
-        _damage = 1;
-        _deffence = 0;
+        _damage = 10;
+        _deffence = 100;
         _attackSpeed = 60;
 
         _battleCharacterUI.SetStartValues(_hp, _maxHP, _damage, _deffence, _attackSpeed);
 
-        _attackTimer = this.gameObject.AddComponent<Timer>();
         CooldownSimpleAttack();
     }
     private void Update()
@@ -63,13 +67,25 @@ public class BattleCharacter : MonoBehaviour
     }
     public void GetDamage(float val)
     {
+        if(_deffence > 0)
+        {
+            if(_deffence >= 100)
+            {
+                val = 1;
+            }
+            else
+            {
+                val = val - val * _deffence / 100;
+            }
+        }
         _hp -= val;
         if (_hp <= 0)
         {
             _hp = 0;
             _aliveState = AliveState.Dead;
         }
-        _battleCharacterUI.SetHP(_hp, true);
+        _battleCharacterUI.ShowDamageEffect(val);
+        _battleCharacterUI.SetHP(_hp);
     }
     public bool IsAlive()
     {

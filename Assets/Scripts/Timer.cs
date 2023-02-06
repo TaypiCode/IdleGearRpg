@@ -5,7 +5,7 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     private float _time = 0;
-    private bool _isWorking;
+    private bool _isWorking = false;
     private void Start()
     {
         StartCoroutine(UpdateTimer());

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
 
 public class BattleCharacterUI : MonoBehaviour
 {
@@ -12,20 +11,52 @@ public class BattleCharacterUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _damageText;
     [SerializeField] private TextMeshProUGUI _deffenceText;
     [SerializeField] private TextMeshProUGUI _attackSpeedText;
+    [Header("Hit anim settings")]
+    [SerializeField] private Transform _characterImgCanvas;
+    [SerializeField] private float _characterImgHitScale;
+    [SerializeField] private float _characterImgHitScaleAnimSpeed;
+    [SerializeField] private float _characterImgScaleDelay;
     [SerializeField] private float _hpAnimSpeed;
+    [SerializeField] private GameObject _damageTextPrefub;
+    [SerializeField] private Transform _damageTextSpawnPos;
+    [SerializeField] private Transform _damageTextSpawnPool;
+
     private float _maxHP;
     private float _endHPAnim;
     private float _currentHPAnim;
     private bool _needAnimHP = false;
+    private bool _needAnimHit = false;
+    private float _currentCharacterImgScale;
+    private Vector3 _characterImgHitStartScale;
+    private Timer _characterImgScaleTimer;
+
+    private List<DamageTextObject> _damageTexts = new List<DamageTextObject>();
+    private void Awake()
+    {
+        _characterImgScaleTimer = this.gameObject.AddComponent<Timer>();
+    }
+    private void Start()
+    {
+        _characterImgHitStartScale = new Vector3(1 + _characterImgHitScale, 1 + _characterImgHitScale, 1);
+    }
     private void Update()
     {
         if (_needAnimHP)
         {
             _currentHPAnim = Mathf.Lerp(_currentHPAnim, _endHPAnim, _hpAnimSpeed * Time.deltaTime);
             _hpSlider.value = _currentHPAnim;
-            if(_currentHPAnim < 0 || _currentHPAnim > _maxHP)
+            if (_currentHPAnim < 0 || _currentHPAnim > _maxHP)
             {
                 _needAnimHP = false;
+            }
+        }
+        if (_needAnimHit && _characterImgScaleTimer.IsWorking() == false)
+        {
+            _currentCharacterImgScale = Mathf.Lerp(_currentCharacterImgScale, 1, _characterImgHitScaleAnimSpeed * Time.deltaTime);
+            _characterImgCanvas.localScale = new Vector3(_currentCharacterImgScale, _currentCharacterImgScale, 1);
+            if (_characterImgCanvas.localScale == Vector3.one)
+            {
+                _needAnimHit = false;
             }
         }
     }
@@ -33,49 +64,76 @@ public class BattleCharacterUI : MonoBehaviour
     {
         _maxHP = maxHP;
         _hpSlider.maxValue = maxHP;
-        SetHP(hp, false);
-        SetDamage(damage, false);
-        SetDeffence(deffence, false);
-        SetAttackSpeed(attackSpeed, false);
+        SetHP(hp);
+        SetStatDamageText(damage, false);
+        SetStatDeffenceText(deffence, false);
+        SetStatAttackSpeedText(attackSpeed, false);
     }
-    public void SetHP(float val, bool showEffect)
+    public void SetHP(float val)
     {
-        if (showEffect == false)
-        {
-            _currentHPAnim = val;
-            _endHPAnim = val;
-            _hpSlider.value = val;
-        }
-        else
-        {
-            _endHPAnim = val;
-        }
+        _currentHPAnim = val;
+        _endHPAnim = val;
+        _hpSlider.value = val;
         _hpText.text = Mathf.RoundToInt(val) + "/" + Mathf.RoundToInt(_maxHP);
-        _needAnimHP = showEffect;
+
     }
-    public void SetDamage(float val, bool showEffect)
+    public void SetStatDamageText(float val, bool showEffect)
     {
         if (showEffect == false)
         {
             _damageText.text = ConvertToFormat(val);
         }
     }
-    public void SetDeffence(float val, bool showEffect)
+    public void SetStatDeffenceText(float val, bool showEffect)
     {
         if (showEffect == false)
         {
-            _deffenceText.text = ConvertToFormat(val);
+            _deffenceText.text = ConvertToFormat(val) + "%";
         }
     }
-    public void SetAttackSpeed(float val, bool showEffect)
+    public void SetStatAttackSpeedText(float val, bool showEffect)
     {
         if (showEffect == false)
         {
             _attackSpeedText.text = ConvertToFormat(val);
         }
     }
+    public void ShowDamageEffect(float val)
+    {
+        _currentHPAnim = val;
+        _endHPAnim = val;
+        _hpSlider.value = val;
+        _needAnimHP = true;
+        ShowDamageText(val.ToString());
+        ShowHitAnim();
+    }
+    private void ShowHitAnim()
+    {
+        _currentCharacterImgScale = 1 + _characterImgHitScale;
+        _characterImgCanvas.localScale = _characterImgHitStartScale;
+        _characterImgScaleTimer.SetTimer(_characterImgScaleDelay);
+        _needAnimHit = true;
+    }
     private string ConvertToFormat(float val)
     {
         return System.String.Format("{0:0.00}", System.Math.Round(val, 2));
+    }
+    private void ShowDamageText(string val)
+    {
+        DamageTextObject damageText = null;
+        for (int i = 0; i < _damageTexts.Count; i++)
+        {
+            if (_damageTexts[i].IsShowing() == false)
+            {
+                damageText = _damageTexts[i];
+                break;
+            }
+        }
+        if (damageText == null)
+        {
+            damageText = Instantiate(_damageTextPrefub, _damageTextSpawnPool).GetComponent<DamageTextObject>();
+            _damageTexts.Add(damageText);
+        }
+        damageText.ShowText(val, _damageTextSpawnPos.position);
     }
 }
