@@ -4,13 +4,9 @@ using UnityEngine;
 
 public class OnCloseScript : MonoBehaviour
 {
-    private SaveGame _save;
-    private void Start()
-    {
-        _save = FindObjectOfType<SaveGame>();
-    }
+    [SerializeField] private bool _needSave;
     public void OnClose()
     {
-        _save.SaveProgress();
+        if(_needSave) FindObjectOfType<SaveGame>().SaveProgress();
     }
 }
