@@ -62,6 +62,7 @@ public class BattleCharacterUI : MonoBehaviour
     }
     public void SetStartValues(float hp, float maxHP, float damage, float deffence, float attackSpeed)
     {
+        _needAnimHP = false;
         _maxHP = maxHP;
         _hpSlider.maxValue = maxHP;
         SetHP(hp, false);

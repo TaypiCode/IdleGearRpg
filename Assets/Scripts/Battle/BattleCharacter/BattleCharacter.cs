@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.Events;
 
 public class BattleCharacter : MonoBehaviour
 {
@@ -12,6 +12,7 @@ public class BattleCharacter : MonoBehaviour
     private float _deffence;
     private float _attackSpeed; //attacksPerMinute
     private AliveState _aliveState;
+    public UnityEvent deathEvent;
     private enum AliveState
     {
         Alive,
@@ -22,20 +23,6 @@ public class BattleCharacter : MonoBehaviour
     private void Awake()
     {
         _attackTimer = this.gameObject.AddComponent<Timer>();
-    }
-    private void Start()
-    {
-        _aliveState = AliveState.Alive;
-        //get static data from menu
-        _maxHP = 100;
-        _hp = _maxHP;
-        _damage = 10;
-        _deffence = 30;
-        _attackSpeed = 60;
-
-        _battleCharacterUI.SetStartValues(_hp, _maxHP, _damage, _deffence, _attackSpeed);
-
-        CooldownSimpleAttack();
     }
     private void Update()
     {
@@ -49,6 +36,20 @@ public class BattleCharacter : MonoBehaviour
                 }
             }
         }
+    }
+    public void SetStartStats(float hp, float damage, float deffence, float attackSpeed)
+    {
+        _maxHP = hp;
+        _hp = _maxHP;
+        _damage = damage;
+        _deffence = deffence;
+        _attackSpeed = attackSpeed;
+
+        _battleCharacterUI.SetStartValues(_hp, _maxHP, _damage, _deffence, _attackSpeed);
+
+        CooldownSimpleAttack();
+
+        _aliveState = AliveState.Alive;
     }
     private void SimpleAttack()
     {
@@ -71,7 +72,7 @@ public class BattleCharacter : MonoBehaviour
         {
             if(_deffence >= 100)
             {
-                val = 1;
+                val = val * 0.01f; //1% 
             }
             else
             {
@@ -84,6 +85,7 @@ public class BattleCharacter : MonoBehaviour
         {
             _hp = 0;
             _aliveState = AliveState.Dead;
+            deathEvent?.Invoke();
         }
         _battleCharacterUI.SetHP(_hp, true);
     }

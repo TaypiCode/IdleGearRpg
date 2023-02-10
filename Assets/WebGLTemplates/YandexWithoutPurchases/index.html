@@ -89,6 +89,16 @@
                     lb.setLeaderboardScore(leaderboadrName, leaderboardValue);
                 });
         }
+
+	function ShowRateUs()
+	{
+		ysdk.feedback.canReview()
+        		.then(({ value, reason }) => {
+            			if (value) {
+                			ysdk.feedback.requestReview();
+            			}
+       			 });
+	}
     </script>
 </head>
 <body>
