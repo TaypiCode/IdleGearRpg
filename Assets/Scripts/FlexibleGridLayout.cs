@@ -15,11 +15,11 @@ public class FlexibleGridLayout : LayoutGroup
     }
     [SerializeField] private int _rows;
     [SerializeField] private int _columns;
+    [SerializeField] private Vector2 _cellSize;
     [SerializeField] private Vector2 _spacing;
     [SerializeField] private FitType _fitType;
-    private Vector2 _cellSize;
-    private bool _fitX;
-    private bool _fitY;
+    [SerializeField] private bool _fitX;
+    [SerializeField] private bool _fitY;
     public override void CalculateLayoutInputHorizontal()
     {
         base.CalculateLayoutInputHorizontal();
