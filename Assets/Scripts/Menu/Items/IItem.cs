@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface  IItem
 {
+    void Set(ItemScriptableObject item, Item parent);
     void Use();
     void Select();
 

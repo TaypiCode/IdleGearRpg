@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8371648905191497389}
   - component: {fileID: 5515899272755588506}
+  - component: {fileID: 2461030074249932658}
   m_Layer: 5
   m_Name: InventoryCell
   m_TagString: Untagged
@@ -45,6 +46,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 696236442803423745}
   m_CullTransparentMesh: 0
+--- !u!114 &2461030074249932658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696236442803423745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca70f41a95edc5449b9aec7097b76342, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemPrefub: {fileID: 598237541069239995, guid: 4b999aefc0a3e4a41b334bab37ab9463,
+    type: 3}
 --- !u!1 &5869328641845281474
 GameObject:
   m_ObjectHideFlags: 0

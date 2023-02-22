@@ -1,16 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Item : MonoBehaviour
 {
-    [SerializeField] private Canvas _thisCanvas;
-    protected void HideItem()
+    [SerializeField]private Canvas _thisCanvas;
+    public UnityEvent OnUseEvent = new UnityEvent();
+    public UnityEvent OnSelectEvent = new UnityEvent();
+    public void Use()
     {
-        _thisCanvas.enabled = false;
+        OnUseEvent?.Invoke();
     }
-    protected void ShowItem()
+    public void Select()
     {
-        _thisCanvas.enabled = true;
+        OnSelectEvent?.Invoke();
     }
+    public void Remove()
+    {
+        Destroy(gameObject);
+    }
+}
+[Serializable]
+public class FloatUnityEvent : UnityEvent<float>
+{
 }

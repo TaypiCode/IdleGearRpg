@@ -7,9 +7,21 @@ public class InventoryCell : MonoBehaviour
     [SerializeField] private GameObject _itemPrefub;
     private Item _item = null;
     private Transform _transform;
-    public void SetItem<T>(System.Type item)
+
+    public Item GetItem { get => _item;  }
+
+    private void Start()
     {
-        _item = (Item)Instantiate(_itemPrefub, _transform).AddComponent(item);
+        _transform = transform;
+    }
+    public void SetItem(ItemScriptableObject item)
+    {
+        _item = Instantiate(_itemPrefub, _transform).GetComponent<Item>();
+        if (item is ArmorScriptable)
+        {
+            _item.gameObject.AddComponent<ArmorItem>().Set(item,_item);
+            Debug.Log(_item);
+        }
     }
     public void DeleteItem()
     {
@@ -17,5 +29,9 @@ public class InventoryCell : MonoBehaviour
         {
             Destroy(_item.gameObject);
         }
+    }
+    public bool HaveItem()
+    {
+        return _item != null;
     }
 }

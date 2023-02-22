@@ -2,26 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArmorItem : Item, IItem
+public class ArmorItem : MonoBehaviour, IItem
 {
-    [SerializeField] private ArmorScriptable _armorScriptable;
+    private ArmorScriptable _armorScriptable;
+    private Item _itemParent;
 
-    
+    public ArmorScriptable GetArmorScriptable { get => _armorScriptable;}
+    public Item ItemParent { get => _itemParent;  }
 
-    private void Start()
+    public void Set(ItemScriptableObject armor, Item parent)
     {
-        if(_armorScriptable == null)
-        {
-            
-        }
+        _armorScriptable = armor as ArmorScriptable;
+        _itemParent = parent;
+        _itemParent.OnUseEvent?.AddListener(Use);
+        _itemParent.OnSelectEvent?.AddListener(Select);
     }
     public void Select()
     {
-
+        print("select");
     }
-
     public void Use()
     {
-
+        print("use");
+        FindObjectOfType<CharacterItems>().TrySetArmor(this);
     }
 }
