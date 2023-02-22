@@ -10,6 +10,8 @@ public class Item : MonoBehaviour
 {
     [SerializeField] private Canvas _thisCanvas;
     [SerializeField] private Image _itemImage;
+    [SerializeField] private GameObject _useBtn;
+    [SerializeField] private GameObject _deleteBtn;
     private ItemScriptableObject _itemScriptable;
     private InventoryType _inventoryType;
     private int _itemsCount;
@@ -48,12 +50,14 @@ public class Item : MonoBehaviour
                 {
                     Remove();
                 }
+                UnSelect();
                 break;
             case InventoryType.Inventory:
                 if (_itemScriptable is CharacterItemScriptable)
                 {
                     WearItem();
                 }
+                UnSelect();
                 break;
             default: return;
 
@@ -74,11 +78,20 @@ public class Item : MonoBehaviour
     }
     public void Select()
     {
-
+        FindObjectOfType<Inventory>().ShowItemOverview(this);
+        _useBtn.SetActive(true);
+        _deleteBtn.SetActive(true);
+    }
+    public void UnSelect()
+    {
+        FindObjectOfType<Inventory>().HideItemOverview();
+        _useBtn.SetActive(false);
+        _deleteBtn.SetActive(false);
     }
     public void Remove()
     {
-        Destroy(gameObject);
+        UnSelect();
+        GetComponentInParent<InventoryCell>().DeleteItem(true);
     }
 
 }

@@ -2,9 +2,17 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
-
+using TMPro;
 public class CharacterItems : MonoBehaviour
 {
+    [SerializeField] private float _startHP;
+    [SerializeField] private float _startDamage;
+    [SerializeField] private float _startDeffence;
+    [SerializeField] private float _startAttackSpeed;
+    [SerializeField] private TextMeshProUGUI _hpText;
+    [SerializeField] private TextMeshProUGUI _damageText;
+    [SerializeField] private TextMeshProUGUI _deffenceText;
+    [SerializeField] private TextMeshProUGUI _attackSpeedText;
     [SerializeField] private InventoryCell _headItemCell;
     [SerializeField] private InventoryCell _bodyItemCell;
     [SerializeField] private InventoryCell _handItemCell;
@@ -17,6 +25,10 @@ public class CharacterItems : MonoBehaviour
     [SerializeField] private InventoryCell _mainHandItemCell;
     [SerializeField] private InventoryCell _secondHandItemCell;
     [SerializeField] private InventoryCell _musicianItemCell;
+    private void Start()
+    {
+        CalculateStats();
+    }
     public void TrySetItem(ItemScriptableObject item, Item sender)
     {
         if (item is CharacterItemScriptable)
@@ -90,12 +102,31 @@ public class CharacterItems : MonoBehaviour
         }
         sender.Remove();
     }
-    private void CalculateStats()
+    public void CalculateStats()
     {
-        PlayerData.playerDeffence = 0;
-        PlayerData.playerDamage = 0;
-        PlayerData.playerHP = 0;
-        PlayerData.playerAttackSpeed = 0;
+        PlayerData.playerDeffence = _startDeffence;
+        PlayerData.playerDamage = _startDamage;
+        PlayerData.playerHP = _startHP;
+        PlayerData.playerAttackSpeed = _startAttackSpeed;
+        Item[] itemList = GetItems();
+        for (int i = 0; i < itemList.Length; i++)
+        {
+            if (itemList[i] != null)
+            {
+                CharacterItemScriptable data = itemList[i].ItemScriptable as CharacterItemScriptable;
+                PlayerData.playerHP += data.Hp;
+                PlayerData.playerDamage += data.Damage;
+                PlayerData.playerDeffence += data.Deffence;
+                PlayerData.playerAttackSpeed += data.AttackSpeed;
+            }
+        }
+        _hpText.text = "Здоровье: " + Mathf.RoundToInt(PlayerData.playerHP);
+        _damageText.text = "Урон: " + StringConverter.ConvertToFormat(PlayerData.playerDamage);
+        _deffenceText.text = "Защита: " + StringConverter.ConvertToFormat(PlayerData.playerDeffence) + "%";
+        _attackSpeedText.text = "Скорость атаки: " + StringConverter.ConvertToFormat(PlayerData.playerAttackSpeed);
+    }
+    private Item[] GetItems()
+    {
         Item[] itemList = new Item[12]
         {
             _headItemCell.GetItem,
@@ -111,16 +142,6 @@ public class CharacterItems : MonoBehaviour
             _secondHandItemCell.GetItem,
             _musicianItemCell.GetItem,
         };
-        for (int i = 0; i < itemList.Length; i++)
-        {
-            if (itemList[i] != null)
-            {
-                CharacterItemScriptable data = itemList[i].ItemScriptable as CharacterItemScriptable;
-                PlayerData.playerHP += data.Hp;
-                PlayerData.playerDamage += data.Damage;
-                PlayerData.playerDeffence += data.Deffence;
-                PlayerData.playerAttackSpeed += data.AttackSpeed;
-            }
-        }
+        return itemList;
     }
 }

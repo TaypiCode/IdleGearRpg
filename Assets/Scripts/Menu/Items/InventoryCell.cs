@@ -23,11 +23,16 @@ public class InventoryCell : MonoBehaviour
         _item = Instantiate(_itemPrefub, _transform).GetComponent<Item>();
         _item.Set(item, inventoryType, count);
     }
-    public void DeleteItem()
+    public void DeleteItem(bool needRecalcPlayerStat = false)
     {
         if(_item != null)
         {
             Destroy(_item.gameObject);
+            _item = null;
+            if (needRecalcPlayerStat)
+            {
+                FindObjectOfType<CharacterItems>().CalculateStats();
+            }
         }
     }
 

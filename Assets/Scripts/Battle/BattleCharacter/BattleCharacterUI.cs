@@ -84,21 +84,21 @@ public class BattleCharacterUI : MonoBehaviour
     {
         if (showEffect == false)
         {
-            _damageText.text = ConvertToFormat(val);
+            _damageText.text = StringConverter.ConvertToFormat(val);
         }
     }
     public void SetStatDeffenceText(float val, bool showEffect)
     {
         if (showEffect == false)
         {
-            _deffenceText.text = ConvertToFormat(val) + "%";
+            _deffenceText.text = StringConverter.ConvertToFormat(val) + "%";
         }
     }
     public void SetStatAttackSpeedText(float val, bool showEffect)
     {
         if (showEffect == false)
         {
-            _attackSpeedText.text = ConvertToFormat(val);
+            _attackSpeedText.text = StringConverter.ConvertToFormat(val);
         }
     }
     public void ShowDamageEffect(float fromHP, float damage)
@@ -114,10 +114,6 @@ public class BattleCharacterUI : MonoBehaviour
         _characterImgCanvas.localScale = _characterImgHitStartScale;
         _characterImgScaleTimer.SetTimer(_characterImgScaleDelay);
         _needAnimHit = true;
-    }
-    private string ConvertToFormat(float val)
-    {
-        return System.String.Format("{0:0.00}", System.Math.Round(val, 2));
     }
     private void ShowDamageText(string val)
     {

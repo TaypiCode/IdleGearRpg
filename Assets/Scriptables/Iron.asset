@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Iron
   m_EditorClassIdentifier: 
   itemId: 424117db-8a08-4624-9ab2-790446e93994
-  _itemName: Iron
+  _itemName: "\u0416\u0435\u043B\u0435\u0437\u044F\u043A\u0430"
   _sprite: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}
   _countInStock: 100
+  _info: "\u0418\u043D\u0444\u043E\u0440\u043C\u0430\u0448\u043A\u0430 \u043F\u043E
+    \u0436\u0435\u043B\u0435\u0437\u0443"
