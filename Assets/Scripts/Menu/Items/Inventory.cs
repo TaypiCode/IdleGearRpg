@@ -9,22 +9,25 @@ public class Inventory : MonoBehaviour
     private List<ItemScriptableObject> _playerItems = new List<ItemScriptableObject>();
     private void Start()
     {
-        AddItem(_allGameItems.Items[0]);
+        for (int i = 0; i < _allGameItems.Items.Count; i++)
+        {
+            AddItem(_allGameItems.Items[i]);
+        }
+        for (int i = 0; i < _playerItems.Count; i++)
+        {
+            AddItem(_playerItems[i]);
+        }
     }
-    public void AddItem(ItemScriptableObject item)
+    public bool AddItem(ItemScriptableObject item)
     {
-        InventoryCell cell = null;
         for (int i = 0; i < _cells.Count; i++)
         {
             if (_cells[i].HaveItem() == false)
             {
-                cell = _cells[i];
-                break;
+                _cells[i].SetItem(item, Item.InventoryType.Inventory);
+                return true;
             }
         }
-        if(cell != null)
-        {
-            cell.SetItem(item);
-        }
+        return false;
     }
 }

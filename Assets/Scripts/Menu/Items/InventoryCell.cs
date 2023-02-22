@@ -14,14 +14,14 @@ public class InventoryCell : MonoBehaviour
     {
         _transform = transform;
     }
-    public void SetItem(ItemScriptableObject item)
+    public void SetItem(ItemScriptableObject item, Item.InventoryType inventoryType)
     {
-        _item = Instantiate(_itemPrefub, _transform).GetComponent<Item>();
-        if (item is ArmorScriptable)
+        if(_transform== null)
         {
-            _item.gameObject.AddComponent<ArmorItem>().Set(item,_item);
-            Debug.Log(_item);
+            _transform = transform;
         }
+        _item = Instantiate(_itemPrefub, _transform).GetComponent<Item>();
+        _item.Set(item, inventoryType);
     }
     public void DeleteItem()
     {

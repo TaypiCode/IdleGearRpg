@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dac2f2bff23034b47a80c759f99c9c8e, type: 3}
-  m_Name: Sword
+  m_Name: Head
   m_EditorClassIdentifier: 
-  itemId: 16735c81-e2a7-4440-99d6-33993b6ce42d
+  itemId: 4e72c9cf-5c55-4b21-9668-53985f741386
   _countInStock: 1
-  _hp: 0
-  _damage: 10
-  _deffence: 0
-  _attackSpeed: 150
-  _position: 9
+  _hp: 10
+  _damage: 1
+  _deffence: 5
+  _attackSpeed: 0
+  _position: 0

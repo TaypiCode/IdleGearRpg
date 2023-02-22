@@ -10,8 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dac2f2bff23034b47a80c759f99c9c8e, type: 3}
-  m_Name: Head_T1
+  m_Name: Ring
   m_EditorClassIdentifier: 
-  itemId: 0f057530-4cec-4604-b3d5-515618a4f497
+  itemId: 476d0269-e8bd-4d8f-bbeb-b4f05d2f7978
   _countInStock: 1
+  _hp: 5
+  _damage: 1
   _deffence: 0
+  _attackSpeed: 10
+  _position: 8
