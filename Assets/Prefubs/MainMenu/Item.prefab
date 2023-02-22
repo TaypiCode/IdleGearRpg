@@ -153,12 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _thisCanvas: {fileID: 2773491396318566432}
-  OnUseEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnSelectEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  _itemImage: {fileID: 7891712712883167852}
 --- !u!1 &8841044994729000267
 GameObject:
   m_ObjectHideFlags: 0

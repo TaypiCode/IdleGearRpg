@@ -26,51 +26,51 @@ public class CharacterItems : MonoBehaviour
             {
                 case CharacterItemScriptable.Position.Head:
                     SetOrDestroySender(_headItemCell, sender);
-                    _headItemCell.SetItem(scriptable, Item.InventoryType.Character);
+                    _headItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
                     break;
                 case CharacterItemScriptable.Position.Body:
                     SetOrDestroySender(_bodyItemCell, sender);
-                    _bodyItemCell.SetItem(scriptable, Item.InventoryType.Character);
+                    _bodyItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
                     break;
                 case CharacterItemScriptable.Position.Hand:
                     SetOrDestroySender(_handItemCell, sender);
-                    _handItemCell.SetItem(scriptable, Item.InventoryType.Character);
+                    _handItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
                     break;
                 case CharacterItemScriptable.Position.Leg:
                     SetOrDestroySender(_legItemCell, sender);
-                    _legItemCell.SetItem(scriptable, Item.InventoryType.Character);
+                    _legItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
                     break;
                 case CharacterItemScriptable.Position.Boots:
                     SetOrDestroySender(_bootsItemCell, sender);
-                    _bootsItemCell.SetItem(scriptable, Item.InventoryType.Character);
+                    _bootsItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
                     break;
                 case CharacterItemScriptable.Position.Cloak:
                     SetOrDestroySender(_cloakItemCell, sender);
-                    _cloakItemCell.SetItem(scriptable, Item.InventoryType.Character);
+                    _cloakItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
                     break;
                 case CharacterItemScriptable.Position.Neck:
                     SetOrDestroySender(_neckItemCell, sender);
-                    _neckItemCell.SetItem(scriptable, Item.InventoryType.Character);
+                    _neckItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
                     break;
                 case CharacterItemScriptable.Position.Earring:
                     SetOrDestroySender(_earringItemCell, sender);
-                    _earringItemCell.SetItem(scriptable, Item.InventoryType.Character);
+                    _earringItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
                     break;
                 case CharacterItemScriptable.Position.Ring:
                     SetOrDestroySender(_ringItemCell, sender);
-                    _ringItemCell.SetItem(scriptable, Item.InventoryType.Character);
+                    _ringItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
                     break;
                 case CharacterItemScriptable.Position.MainHand:
                     SetOrDestroySender(_mainHandItemCell, sender);
-                    _mainHandItemCell.SetItem(scriptable, Item.InventoryType.Character);
+                    _mainHandItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
                     break;
                 case CharacterItemScriptable.Position.SecondHand:
                     SetOrDestroySender(_secondHandItemCell, sender);
-                    _secondHandItemCell.SetItem(scriptable, Item.InventoryType.Character);
+                    _secondHandItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
                     break;
                 case CharacterItemScriptable.Position.MusicianInstrument:
                     SetOrDestroySender(_musicianItemCell, sender);
-                    _musicianItemCell.SetItem(scriptable, Item.InventoryType.Character);
+                    _musicianItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
                     break;
                 default: return;
             }

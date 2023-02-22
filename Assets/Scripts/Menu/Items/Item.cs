@@ -4,26 +4,39 @@ using System.Collections.Generic;
 using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class Item : MonoBehaviour
 {
     [SerializeField] private Canvas _thisCanvas;
+    [SerializeField] private Image _itemImage;
     private ItemScriptableObject _itemScriptable;
     private InventoryType _inventoryType;
-
+    private int _itemsCount;
     public ItemScriptableObject ItemScriptable { get => _itemScriptable;}
+    public int ItemsCount { get => _itemsCount;  }
 
     public enum InventoryType
     {
         Character,
         Inventory
     }
-    public void Set(ItemScriptableObject item, InventoryType inventoryType)
+    public void Set(ItemScriptableObject item, InventoryType inventoryType, int itemsCount = 1)
     {
         _inventoryType= inventoryType;
         if (item is CharacterItemScriptable)
         {
             _itemScriptable = item as CharacterItemScriptable;
+        }
+        else if (item is MiscItemScriptable)
+        {
+            _itemScriptable = item as MiscItemScriptable;
+        }
+        _itemImage.sprite = item.Sprite;
+        _itemsCount = itemsCount;
+        if (itemsCount > _itemScriptable.CountInStock)
+        {
+            _itemsCount = _itemScriptable.CountInStock;
         }
     }
     public void Use()
@@ -53,7 +66,7 @@ public class Item : MonoBehaviour
     private bool UndressItem()
     {
         Inventory inventory = FindObjectOfType<Inventory>();
-        if (inventory.AddItem(_itemScriptable))
+        if (inventory.AddItem(_itemScriptable, 1))
         {
             return true;
         }

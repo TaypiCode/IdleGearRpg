@@ -14,14 +14,14 @@ public class InventoryCell : MonoBehaviour
     {
         _transform = transform;
     }
-    public void SetItem(ItemScriptableObject item, Item.InventoryType inventoryType)
+    public void SetItem(ItemScriptableObject item, Item.InventoryType inventoryType, int count)
     {
         if(_transform== null)
         {
             _transform = transform;
         }
         _item = Instantiate(_itemPrefub, _transform).GetComponent<Item>();
-        _item.Set(item, inventoryType);
+        _item.Set(item, inventoryType, count);
     }
     public void DeleteItem()
     {
@@ -30,8 +30,5 @@ public class InventoryCell : MonoBehaviour
             Destroy(_item.gameObject);
         }
     }
-    public bool HaveItem()
-    {
-        return _item != null;
-    }
+
 }
