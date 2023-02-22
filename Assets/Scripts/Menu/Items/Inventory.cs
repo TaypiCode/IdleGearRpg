@@ -21,7 +21,7 @@ public class Inventory : MonoBehaviour
         {
             AddItem(_allGameItems.Items[i], 1);
         }
-        for (int i = 0; i < _playerItems.Count; i++) 
+        for (int i = 0; i < _playerItems.Count; i++)
         {
             AddItem(_playerItems[i], _playerItemsCount[i]);
         }
@@ -41,11 +41,7 @@ public class Inventory : MonoBehaviour
                             if (_cells[i].GetItem.ItemsCount + count <= item.CountInStock)
                             {
                                 _cells[i].SetItem(item, Item.InventoryType.Inventory, _cells[i].GetItem.ItemsCount + count);
-                                count -= count;
-                                if (count == 0)
-                                {
-                                    return true;
-                                }
+                                return true;
                             }
                             else
                             {
@@ -64,11 +60,15 @@ public class Inventory : MonoBehaviour
             {
                 if (_cells[i].GetItem == null)
                 {
-                    _cells[i].SetItem(item, Item.InventoryType.Inventory, count);
-                    count -= count;
-                    if (count == 0)
+                    if (count <= item.CountInStock)
                     {
+                        _cells[i].SetItem(item, Item.InventoryType.Inventory, count);
                         return true;
+                    }
+                    else
+                    {
+                        _cells[i].SetItem(item, Item.InventoryType.Inventory, item.CountInStock);
+                        count = count - item.CountInStock;
                     }
                 }
             }
@@ -97,11 +97,12 @@ public class Inventory : MonoBehaviour
             }
             if (data.AttackSpeed != 0)
             {
-                _itemOverviewText.text += "Скорость атаки: " + StringConverter.ConvertToFormat(data.AttackSpeed)+newString;
+                _itemOverviewText.text += "Скорость атаки: " + StringConverter.ConvertToFormat(data.AttackSpeed) + newString;
             }
-            
+
         }
-        else if(item.ItemScriptable is MiscItemScriptable){
+        else if (item.ItemScriptable is MiscItemScriptable)
+        {
             MiscItemScriptable data = item.ItemScriptable as MiscItemScriptable;
             _itemOverviewText.text += data.Info;
         }
