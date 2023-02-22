@@ -12,21 +12,31 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Image _itemOverviewImage;
     [SerializeField] private TextMeshProUGUI _itemOverviewText;
     [SerializeField] private List<InventoryCell> _cells = new List<InventoryCell>();
-    private List<ItemScriptableObject> _playerItems = new List<ItemScriptableObject>(); //need fill from save
-    private List<int> _playerItemsCount = new List<int>();//need fill from save
-    private Item _selectedItem;
+
     private void Start()
     {
         for (int i = 0; i < _allGameItems.Items.Count; i++) //for test
         {
-            AddItem(_allGameItems.Items[i], 1);
-        }
-        for (int i = 0; i < _playerItems.Count; i++)
-        {
-            AddItem(_playerItems[i], _playerItemsCount[i]);
+            CreateItem(_allGameItems.Items[i], 1);
         }
     }
-    public bool AddItem(ItemScriptableObject item, int count)
+    public void CreateFromSave(string[] playerItemsId, int[] playerItemsCount)
+    {
+        List<ItemScriptableObject> allItems = _allGameItems.Items;
+
+        for (int i = 0; i < playerItemsId.Length; i++)
+        {
+            for (int j = 0; j < allItems.Count; j++)
+            {
+                if (playerItemsId[i] == allItems[j].itemId)
+                {
+                    CreateItem(allItems[j], playerItemsCount[i]);
+                    break;
+                }
+            }
+        }
+    }
+    public bool CreateItem(ItemScriptableObject item, int count)
     {
         for (int i = 0; i < _cells.Count; i++)
         {
@@ -36,7 +46,7 @@ public class Inventory : MonoBehaviour
                 {
                     if (_cells[i].GetItem.ItemScriptable.itemId == item.itemId)
                     {
-                        if (_cells[i].GetItem.ItemsCount < item.CountInStock)
+                        if (_cells[i].GetItem.ItemsCount != item.CountInStock)
                         {
                             if (_cells[i].GetItem.ItemsCount + count <= item.CountInStock)
                             {
@@ -104,7 +114,7 @@ public class Inventory : MonoBehaviour
         else if (item.ItemScriptable is MiscItemScriptable)
         {
             MiscItemScriptable data = item.ItemScriptable as MiscItemScriptable;
-            _itemOverviewText.text += data.Info;
+            _itemOverviewText.text += data.Info + newString;
         }
         _itemOverviewText.text += "Количество: " + item.ItemsCount;
         _itemOverviewCanvas.SetActive(true);
@@ -112,5 +122,37 @@ public class Inventory : MonoBehaviour
     public void HideItemOverview()
     {
         _itemOverviewCanvas.SetActive(false);
+    }
+    private Item[] GetItems()
+    {
+        List<Item> items = new List<Item>();
+        for(int i = 0; i < _cells.Count; i++)
+        {
+            if (_cells[i].GetItem != null)
+            {
+                items.Add(_cells[i].GetItem);
+            }
+        }
+        return items.ToArray();
+    }
+    public int[] GetPlayerItemsItemCount()
+    {
+        List<int> items = new List<int>();
+        Item[] inventoryItems = GetItems();
+        for (int i = 0; i < inventoryItems.Length; i++)
+        {
+            items.Add(inventoryItems[i].ItemsCount);
+        }
+        return items.ToArray();
+    }
+    public string[] GetPlayerItemsItemId()
+    {
+        List<string> items = new List<string>();
+        Item[] inventoryItems = GetItems();
+        for (int i = 0; i < inventoryItems.Length; i++)
+        {
+            items.Add(inventoryItems[i].ItemScriptable.itemId);
+        }
+        return items.ToArray();
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class LoadGame : MonoBehaviour
 {
+    [SerializeField] private Inventory _inventory;
+    [SerializeField] private CharacterItems _characterItems;
     private Save _save;
     private void Awake()
     {
@@ -11,7 +13,8 @@ public class LoadGame : MonoBehaviour
         if (PlayerPrefs.HasKey("SV"))
         {
             _save = JsonUtility.FromJson<Save>(PlayerPrefs.GetString("SV"));
-            int example = _save.example;
+            _inventory.CreateFromSave(_save.playerItemsItemId, _save.playerItemsItemCount);
+            _characterItems.SetItemFromSave(_save.characterItemsItemId);
         }
     }
 }

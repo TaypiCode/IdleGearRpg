@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class SaveGame : MonoBehaviour
 {
+    [SerializeField] private Inventory _inventory;
+    [SerializeField] private CharacterItems _characterItems;
     private Save save = new Save();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -20,7 +22,9 @@ public class SaveGame : MonoBehaviour
 
     public void SaveProgress()
     {
-        save.example = 1;
+        save.playerItemsItemCount = _inventory.GetPlayerItemsItemCount();
+        save.playerItemsItemId = _inventory.GetPlayerItemsItemId();
+        save.characterItemsItemId = _characterItems.GetItemsId();
         PlayerPrefs.SetString("SV", JsonUtility.ToJson(save));
         PlayerPrefs.Save();
     }
@@ -28,5 +32,7 @@ public class SaveGame : MonoBehaviour
 [Serializable]
 public class Save
 {
-    public int example;
+    public int[] playerItemsItemCount;
+    public string[] playerItemsItemId;
+    public string[] characterItemsItemId;
 }

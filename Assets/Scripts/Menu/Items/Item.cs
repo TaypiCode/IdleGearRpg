@@ -70,7 +70,7 @@ public class Item : MonoBehaviour
     private bool UndressItem()
     {
         Inventory inventory = FindObjectOfType<Inventory>();
-        if (inventory.AddItem(_itemScriptable, 1))
+        if (inventory.CreateItem(_itemScriptable, 1))
         {
             return true;
         }

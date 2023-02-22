@@ -14,7 +14,7 @@ public class InventoryCell : MonoBehaviour
     {
         _transform = transform;
     }
-    public void SetItem(ItemScriptableObject item, Item.InventoryType inventoryType, int count)
+    public Item SetItem(ItemScriptableObject item, Item.InventoryType inventoryType, int count)
     {
         if(_transform== null)
         {
@@ -22,6 +22,7 @@ public class InventoryCell : MonoBehaviour
         }
         _item = Instantiate(_itemPrefub, _transform).GetComponent<Item>();
         _item.Set(item, inventoryType, count);
+        return _item;
     }
     public void DeleteItem(bool needRecalcPlayerStat = false)
     {

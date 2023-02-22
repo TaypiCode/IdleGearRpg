@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 public class CharacterItems : MonoBehaviour
 {
+    [SerializeField] private AllGameItems _allGameItems;
     [SerializeField] private float _startHP;
     [SerializeField] private float _startDamage;
     [SerializeField] private float _startDeffence;
@@ -28,6 +29,24 @@ public class CharacterItems : MonoBehaviour
     private void Start()
     {
         CalculateStats();
+    }
+    public void SetItemFromSave(string[] ids)
+    {
+        ItemScriptableObject[] allItems = _allGameItems.Items.ToArray();
+        for (int i = 0; i < ids.Length; i++)
+        {
+            if (ids[i] != null)
+            {
+                for(int j = 0; j < allItems.Length; j++)
+                {
+                    if (ids[i] == allItems[j].itemId)
+                    {
+                        TrySetItem(allItems[j], null);
+                        break;
+                    }
+                }
+            }
+        }
     }
     public void TrySetItem(ItemScriptableObject item, Item sender)
     {
@@ -92,15 +111,18 @@ public class CharacterItems : MonoBehaviour
     }
     private void SetOrDestroySender(InventoryCell itemCell, Item sender)
     {
-        if (itemCell.GetItem != null)
+        if (sender != null)
         {
-            if (itemCell.GetItem.ItemScriptable != null)
+            sender.Remove();
+            if (itemCell.GetItem != null)
             {
-                sender.Set(itemCell.GetItem.ItemScriptable, Item.InventoryType.Inventory);
-                return;
+                if (itemCell.GetItem.ItemScriptable != null)
+                {
+                    FindObjectOfType<Inventory>().CreateItem(itemCell.GetItem.ItemScriptable, itemCell.GetItem.ItemsCount);
+                }
+
             }
         }
-        sender.Remove();
     }
     public void CalculateStats()
     {
@@ -143,5 +165,22 @@ public class CharacterItems : MonoBehaviour
             _musicianItemCell.GetItem,
         };
         return itemList;
+    }
+    public string[] GetItemsId()
+    {
+        Item[] items = GetItems();
+        string[] ids = new string[items.Length];
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] != null)
+            {
+                ids[i] = items[i].ItemScriptable.itemId;
+            }
+            else
+            {
+                ids[i] = null;
+            }
+        }
+        return ids;
     }
 }
