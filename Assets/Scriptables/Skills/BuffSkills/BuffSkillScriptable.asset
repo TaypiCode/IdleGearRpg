@@ -17,7 +17,7 @@ MonoBehaviour:
   _skillDescription: df
   _skillCooldown: 30
   _skillImg: {fileID: 0}
-  _duration: 5
-  _variant: 1
-  _effect: 1
-  _effectValue: -20
+  _duration: 3
+  _variant: 0
+  _effect: 3
+  _effectValue: 150

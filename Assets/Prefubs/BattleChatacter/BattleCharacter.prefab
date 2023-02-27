@@ -260,8 +260,10 @@ MonoBehaviour:
   _hpAnimSpeed: 10
   _damageTextPrefub: {fileID: 8399266801915297311, guid: f2672acb3926f9643a08aca2b4431880,
     type: 3}
-  _damageTextSpawnPos: {fileID: 201584667354771021}
-  _damageTextSpawnPool: {fileID: 0}
+  _healthTextPrefub: {fileID: 8399266801915297311, guid: 332b2bb5ce6340f43b4d276ddf16241d,
+    type: 3}
+  _popUpTextSpawnPos: {fileID: 8066716667452831090}
+  _popUpTextSpawnPool: {fileID: 0}
 --- !u!114 &1526687328292150102
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -62,7 +62,7 @@ public class BattleCharacter : MonoBehaviour
         _usedDeffence = deffence;
         _usedAttackSpeed = attackSpeed;
 
-        UpdateStatsText();
+        UpdateStatsText(false);
 
         CooldownSimpleAttack();
 
@@ -71,9 +71,9 @@ public class BattleCharacter : MonoBehaviour
         _skillAutoUse.SetSkills(_skillsCreator.CreateSkills(skills, this, _enemy));
 
     }
-    private void UpdateStatsText()
+    private void UpdateStatsText(bool fromBuffs)
     {
-        _battleCharacterUI.SetStartValues(_hp, _maxHP, _usedDamage, _usedDeffence, _usedAttackSpeed);
+        _battleCharacterUI.SetStartValues(_hp, _maxHP, _usedDamage, _usedDeffence, _usedAttackSpeed, fromBuffs);
     }
     private void SimpleAttack()
     {
@@ -103,7 +103,7 @@ public class BattleCharacter : MonoBehaviour
                 val = val - val * _usedDeffence / 100;
             }
         }
-        _battleCharacterUI.ShowDamageEffect(_hp, val);
+        _battleCharacterUI.ShowChangeHPEffect(_hp, -val);
         _hp -= val;
         if (_hp <= 0)
         {
@@ -115,27 +115,28 @@ public class BattleCharacter : MonoBehaviour
     }
     public void Health(float val)
     {
-        _hp += val;
-        if(_hp >= _maxHP)
+        if (_hp + val >= _maxHP)
         {
-            _hp = _maxHP;
+            val = _maxHP - _hp;
         }
+        _battleCharacterUI.ShowChangeHPEffect(_hp, +val);
+        _hp += val;
         _battleCharacterUI.SetHP(_hp, false);
     }
     public void SetUsedDamage(float val)
     {
         _usedDamage = val;
-        UpdateStatsText();
+        UpdateStatsText(true);
     }
     public void SetUsedDeffence(float val)
     {
         _usedDeffence = val;
-        UpdateStatsText();
+        UpdateStatsText(true);
     }
     public void SetUsedAttackSpeed(float val)
     {
         _usedAttackSpeed = val;
-        UpdateStatsText();
+        UpdateStatsText(true);
     }
     public bool IsAlive()
     {

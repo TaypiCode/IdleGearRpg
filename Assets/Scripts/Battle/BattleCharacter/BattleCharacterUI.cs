@@ -20,8 +20,9 @@ public class BattleCharacterUI : MonoBehaviour
     [SerializeField] private float _characterImgScaleDelay;
     [SerializeField] private float _hpAnimSpeed;
     [SerializeField] private GameObject _damageTextPrefub;
-    [SerializeField] private Transform _damageTextSpawnPos;
-    [SerializeField] private Transform _damageTextSpawnPool;
+    [SerializeField] private GameObject _healthTextPrefub;
+    [SerializeField] private Transform _popUpTextSpawnPos;
+    [SerializeField] private Transform _popUpTextSpawnPool;
 
     private float _maxHP;
     private float _endHPAnim;
@@ -33,6 +34,7 @@ public class BattleCharacterUI : MonoBehaviour
     private Timer _characterImgScaleTimer;
 
     private List<PopUpTextObject> _damageTexts = new List<PopUpTextObject>();
+    private List<PopUpTextObject> _healthTexts = new List<PopUpTextObject>();
     private void Awake()
     {
         _characterImgScaleTimer = this.gameObject.AddComponent<Timer>();
@@ -41,8 +43,9 @@ public class BattleCharacterUI : MonoBehaviour
     {
         _characterImgHitStartScale = new Vector3(1 + _characterImgHitScale, 1 + _characterImgHitScale, 1);
     }
-    private void Update()
+    private void FixedUpdate()
     {
+
         if (_needAnimHP)
         {
             _currentHPAnim = Mathf.Lerp(_currentHPAnim, _endHPAnim, _hpAnimSpeed * Time.deltaTime);
@@ -63,12 +66,12 @@ public class BattleCharacterUI : MonoBehaviour
             }
         }
     }
-    public void SetStartValues(float hp, float maxHP, float damage, float deffence, float attackSpeed)
+    public void SetStartValues(float hp, float maxHP, float damage, float deffence, float attackSpeed, bool fromBuffs)
     {
-        _needAnimHP = false;
+        _needAnimHP = fromBuffs;
         _maxHP = maxHP;
         _hpSlider.maxValue = maxHP;
-        SetHP(hp, false);
+        SetHP(hp, fromBuffs);
         SetStatDamageText(damage, false);
         SetStatDeffenceText(deffence, false);
         SetStatAttackSpeedText(attackSpeed, false);
@@ -79,6 +82,7 @@ public class BattleCharacterUI : MonoBehaviour
         {
             _hpSlider.value = val;
             _currentHPAnim = val;
+            _endHPAnim = val;
         }
         _hpImage.color = _hpGradient.Evaluate(Mathf.Clamp(val / _maxHP, 0, 1));
         _hpText.text = Mathf.RoundToInt(val) + "/" + Mathf.RoundToInt(_maxHP);
@@ -105,12 +109,15 @@ public class BattleCharacterUI : MonoBehaviour
             _attackSpeedText.text = StringConverter.ConvertToFormat(val);
         }
     }
-    public void ShowDamageEffect(float fromHP, float damage)
+    public void ShowChangeHPEffect(float fromHP, float changeVal)
     {
-        _endHPAnim = fromHP - damage;
+        _endHPAnim = fromHP + changeVal;
         _needAnimHP = true;
-        ShowDamageText(damage.ToString());
-        ShowHitAnim();
+        ShowHPChangeText(changeVal);
+        if (changeVal < 0)
+        {
+            ShowHitAnim();
+        }
     }
     private void ShowHitAnim()
     {
@@ -119,22 +126,39 @@ public class BattleCharacterUI : MonoBehaviour
         _characterImgScaleTimer.SetTimer(_characterImgScaleDelay);
         _needAnimHit = true;
     }
-    private void ShowDamageText(string val)
+    private void ShowHPChangeText(float val)
     {
-        PopUpTextObject damageText = null;
-        for (int i = 0; i < _damageTexts.Count; i++)
+        PopUpTextObject popUpText = null;
+        List<PopUpTextObject> textList = null;
+        if(val <= 0)
         {
-            if (_damageTexts[i].IsShowing() == false)
+            textList = _damageTexts;
+        }
+        else if(val > 0)
+        {
+            textList = _healthTexts;
+        }
+        for (int i = 0; i < textList.Count; i++)
+        {
+            if (textList[i].IsShowing() == false)
             {
-                damageText = _damageTexts[i];
+                popUpText = textList[i];
                 break;
             }
         }
-        if (damageText == null)
+        if (popUpText == null)
         {
-            damageText = Instantiate(_damageTextPrefub, _damageTextSpawnPool).GetComponent<PopUpTextObject>();
-            _damageTexts.Add(damageText);
+            if (val <= 0)
+            {
+                popUpText = Instantiate(_damageTextPrefub, _popUpTextSpawnPool).GetComponent<PopUpTextObject>();
+                _damageTexts.Add(popUpText);
+            }
+            else
+            {
+                popUpText = Instantiate(_healthTextPrefub, _popUpTextSpawnPool).GetComponent<PopUpTextObject>();
+                _healthTexts.Add(popUpText);
+            }
         }
-        damageText.ShowText(val, _damageTextSpawnPos.position);
+        popUpText.ShowText(val.ToString(), _popUpTextSpawnPos.position);
     }
 }
