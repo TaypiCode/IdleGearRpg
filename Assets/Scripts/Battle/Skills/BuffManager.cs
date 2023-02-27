@@ -5,8 +5,9 @@ using UnityEngine;
 public class BuffManager : MonoBehaviour
 {
     [SerializeField] private BattleCharacter _owner;
-    private List<BuffSkillScriptable> _buffs = new List<BuffSkillScriptable>();
-    private List<Timer> _timers = new List<Timer>();
+    [SerializeField] private GameObject _buffPrefub;
+    [SerializeField] private Transform _buffSpawn;
+    private List<Buff> _buffs = new List<Buff>();
     private void FixedUpdate()
     {
         BuffWork();
@@ -19,15 +20,15 @@ public class BuffManager : MonoBehaviour
         float addDamagePercent = 0;
         float addDeffencePercent = 0;
         float addAttackSpeedPercent = 0;
-        List<BuffSkillScriptable> buffsForRemove = new List<BuffSkillScriptable>();
+        List<Buff> buffsForRemove = new List<Buff>();
         for (int i = 0; i < _buffs.Count; i++)
         {
-            BuffSkillScriptable buff = _buffs[i];
-            if (_timers[i].IsWorking() == false)
+            if (_buffs[i] == null)
             {
                 buffsForRemove.Add(_buffs[i]);
                 continue;
             }
+            BuffSkillScriptable buff = _buffs[i].BuffScriptable;
             switch (buff.GetEffect)
             {
                 case BuffSkillScriptable.Effect.ChangeDamage:
@@ -54,8 +55,6 @@ public class BuffManager : MonoBehaviour
         for (int i = 0; i < buffsForRemove.Count; i++)
         {
             _buffs.Remove(buffsForRemove[i]);
-            Destroy(_timers[i]);
-            _timers.Remove(_timers[i]);
         }
 
         addDamage += _owner.Damage / 100 * addDamagePercent;
@@ -70,28 +69,26 @@ public class BuffManager : MonoBehaviour
         bool needAdd = true;
         for (int i = 0; i < _buffs.Count; i++)
         {
-            if (_buffs[i].itemId == buff.itemId)
+            if (_buffs[i].BuffScriptable.itemId == buff.itemId)
             {
-                _timers[i].SetTimer(_buffs[i].Duration);
+                _buffs[i].Set(_buffs[i].BuffScriptable);
                 needAdd = false;
             }
         }
         if (needAdd)
         {
-            _buffs.Add(buff);
-            Timer timer = gameObject.AddComponent<Timer>();
-            _timers.Add(timer);
-            timer.SetTimer(buff.Duration);
+            Buff buffObj = Instantiate(_buffPrefub, _buffSpawn).GetComponent<Buff>();
+            _buffs.Add(buffObj);
+            buffObj.Set(buff);
         }
     }
 
     public void RemoveAllBuffs()
     {
-        _buffs.Clear();
         for (int i = 0; i < _buffs.Count; i++)
         {
-            Destroy(_timers[i]);
+            _buffs[i].Remove();
         }
-        _timers.Clear();
     }
+
 }

@@ -10,9 +10,12 @@ public class Skill : MonoBehaviour
     private BattleCharacter _owner;
     private BattleCharacter _enemy;
     private Timer _cooldownTimer;
-
+    private SkillOverview _skillOverview;
     public SkillScriptableObject SkillData { get => _skill;  }
-
+    private void Start()
+    {
+        _skillOverview = FindObjectOfType<SkillOverview>();
+    }
     private void FixedUpdate()
     {
         UpdateCooldownUI();
@@ -90,5 +93,13 @@ public class Skill : MonoBehaviour
     public bool CanUse()
     {
         return !_cooldownTimer.IsWorking();
+    }
+    public void ShowOverview()
+    {
+        _skillOverview.ShowOverview(_skill);
+    }
+    public void HideOverview()
+    {
+        _skillOverview.HideOverview();
     }
 }

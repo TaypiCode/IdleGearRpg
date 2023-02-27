@@ -159,6 +159,6 @@ public class BattleCharacterUI : MonoBehaviour
                 _healthTexts.Add(popUpText);
             }
         }
-        popUpText.ShowText(val.ToString(), _popUpTextSpawnPos.position);
+        popUpText.ShowText(StringConverter.ConvertToFormat(val), _popUpTextSpawnPos.position);
     }
 }
