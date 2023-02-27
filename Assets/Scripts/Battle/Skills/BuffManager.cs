@@ -66,29 +66,31 @@ public class BuffManager : MonoBehaviour
     }
     public void AddBuff(BuffSkillScriptable buff)
     {
-        bool needAdd = true;
         for (int i = 0; i < _buffs.Count; i++)
         {
-            if (_buffs[i].BuffScriptable.itemId == buff.itemId)
+            if (_buffs != null)
             {
-                _buffs[i].Set(_buffs[i].BuffScriptable);
-                needAdd = false;
+                if (_buffs[i].BuffScriptable.itemId == buff.itemId)
+                {
+                    _buffs[i].Remove();
+                }
             }
         }
-        if (needAdd)
-        {
-            Buff buffObj = Instantiate(_buffPrefub, _buffSpawn).GetComponent<Buff>();
-            _buffs.Add(buffObj);
-            buffObj.Set(buff);
-        }
+        Buff buffObj = Instantiate(_buffPrefub, _buffSpawn).GetComponent<Buff>();
+        _buffs.Add(buffObj);
+        buffObj.Set(buff);
     }
 
     public void RemoveAllBuffs()
     {
         for (int i = 0; i < _buffs.Count; i++)
         {
-            _buffs[i].Remove();
+            if (_buffs[i] != null)
+            {
+                _buffs[i].Remove();
+            }
         }
+        _buffs.Clear();
     }
 
 }
