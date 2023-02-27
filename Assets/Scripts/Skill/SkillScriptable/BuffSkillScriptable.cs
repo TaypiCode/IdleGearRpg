@@ -5,13 +5,20 @@ using UnityEngine;
 public class BuffSkillScriptable : SkillScriptableObject
 {
     [SerializeField] private float _duration;
+    [SerializeField] private Variant _variant;
     [SerializeField] private Effect _effect;
     [SerializeField] private float _effectValue;
 
     public float Duration { get => _duration; }
     public float EffectValue { get => _effectValue;  }
     public Effect GetEffect { get => _effect; }
+    public Variant GetVariant { get => _variant; }
 
+    public enum Variant
+    {
+        Buff,
+        Debuff
+    }
     public enum Effect
     {
         ChangeDamage,

@@ -18,5 +18,6 @@ MonoBehaviour:
   _skillCooldown: 30
   _skillImg: {fileID: 0}
   _duration: 5
+  _variant: 1
   _effect: 1
-  _effectValue: 80
+  _effectValue: -20

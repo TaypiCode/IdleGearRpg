@@ -48,7 +48,15 @@ public class Skill : MonoBehaviour
                 if (_skill is BuffSkillScriptable)
                 {
                     BuffSkillScriptable skill = _skill as BuffSkillScriptable;
-                    _owner.BuffManager.AddBuff(skill);
+                    switch (skill.GetVariant)
+                    {
+                        case BuffSkillScriptable.Variant.Buff:
+                            _owner.BuffManager.AddBuff(skill);
+                            break;
+                        case BuffSkillScriptable.Variant.Debuff:
+                            _enemy.BuffManager.AddBuff(skill);
+                            break;
+                    }
                     StartCooldown();
                 }
             }
