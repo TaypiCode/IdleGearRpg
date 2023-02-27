@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "CharacterItemScriptable", menuName = "ScriptableObjects/CharacterItem", order = 1)]
+[CreateAssetMenu(fileName = "CharacterItemScriptable", menuName = "ScriptableObjects/Items/CharacterItem", order = 1)]
 public class CharacterItemScriptable : ItemScriptableObject
 {
     [SerializeField] private float _hp;
@@ -9,6 +9,7 @@ public class CharacterItemScriptable : ItemScriptableObject
     [SerializeField] private float _deffence;
     [SerializeField] private float _attackSpeed;
     [SerializeField] private Position _position;
+    [SerializeField] private SkillScriptableObject _skillScriptable;
     public enum Position
     {
         Head,
@@ -30,4 +31,5 @@ public class CharacterItemScriptable : ItemScriptableObject
     public float Hp { get => _hp; }
     public float Damage { get => _damage;  }
     public float AttackSpeed { get => _attackSpeed;  }
+    public SkillScriptableObject SkillScriptable { get => _skillScriptable;  }
 }

@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cf007b5b610064b94b086d818fa730, type: 3}
+  m_Name: DungeonScriptable
+  m_EditorClassIdentifier: 
+  itemId: 8091767a-7602-4e56-8d54-58ce29e4b955
+  _dungeonName: dung
+  _dungeonDescription: descrip
+  _sprite: {fileID: 21300000, guid: 02800fb9cff14da47a04572790384d8b, type: 3}
+  _enemies:
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  _loot:
+  - {fileID: 11400000, guid: 8e01fd4e005ab72469b27933b5ce122a, type: 2}
+  _lootDropChance:
+  - 70
+  _lootDropCount: 01000000

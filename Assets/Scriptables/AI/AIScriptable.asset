@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0575969eb057efb459639adeb99d7047, type: 3}
+  m_Name: AIScriptable
+  m_EditorClassIdentifier: 
+  itemId: 5bfba28b-d18e-4219-a33f-516ef91fce31
+  _characterName: ffff
+  _characterImg: {fileID: 21300000, guid: e5600378dd761e64d9423790c482bf36, type: 3}
+  _hp: 200
+  _damage: 1
+  _deffence: 1
+  _attackSpeed: 30
+  _skills:
+  - {fileID: 11400000, guid: 72e38614564535c4789abdf3bb18ec4e, type: 2}
+  - {fileID: 11400000, guid: b9ff82aaef80f7d43ae8d51aeff5e649, type: 2}

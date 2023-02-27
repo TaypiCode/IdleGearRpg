@@ -6,10 +6,12 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField] private SaveGame _saveGame;
-    public void StartBattle()
+    public void StartBattle(DungeonScriptableObject dungeon)
     {
-        PlayerData.enemyCountInBattle = 5;
-        PlayerData.enemyLevelInBattle = 2;
+        PlayerData.aiScriptables = dungeon.Enemies;
+        PlayerData.loot = dungeon.Loot;
+        PlayerData.lootDropChance = dungeon.LootDropChance;
+        PlayerData.lootDropCount = dungeon.LootDropCount;
         _saveGame.SaveProgress();
         SceneManager.LoadScene(1);
     }

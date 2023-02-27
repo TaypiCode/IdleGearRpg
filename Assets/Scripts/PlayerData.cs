@@ -8,6 +8,11 @@ public static class PlayerData
     public static float playerDamage;
     public static float playerDeffence;
     public static float playerAttackSpeed;
-    public static int enemyCountInBattle;
-    public static int enemyLevelInBattle;
+    public static SkillScriptableObject[] playerSkills;
+    public static AIScriptableObject[] aiScriptables;
+    public static ItemScriptableObject[] loot;
+    public static float[] lootDropChance;
+    public static int[] lootDropCount;
+    public static ItemScriptableObject[] lootRewardFromDungeon;
+    public static int[] lootRewardCountFromDungeon;
 }

@@ -24,7 +24,10 @@ public class SaveGame : MonoBehaviour
     {
         save.playerItemsItemCount = _inventory.GetPlayerItemsItemCount();
         save.playerItemsItemId = _inventory.GetPlayerItemsItemId();
+        save.playerItemsItemGrade = _inventory.GetPlayerItemsGrade();
         save.characterItemsItemId = _characterItems.GetItemsId();
+        save.characterItemsItemGrade = _characterItems.GetItemsGrade();
+
         PlayerPrefs.SetString("SV", JsonUtility.ToJson(save));
         PlayerPrefs.Save();
     }
@@ -33,6 +36,8 @@ public class SaveGame : MonoBehaviour
 public class Save
 {
     public int[] playerItemsItemCount;
+    public int[] playerItemsItemGrade;
     public string[] playerItemsItemId;
     public string[] characterItemsItemId;
+    public int[] characterItemsItemGrade;
 }

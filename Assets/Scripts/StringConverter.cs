@@ -6,6 +6,6 @@ public static class StringConverter
 {
     public static string ConvertToFormat(float val)
     {
-        return System.String.Format("{0:0.00}", System.Math.Round(val, 2));
+        return System.String.Format("{0:0.0}", System.Math.Round(val, 2));
     }
 }

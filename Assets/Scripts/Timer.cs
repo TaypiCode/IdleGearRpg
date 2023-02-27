@@ -5,7 +5,6 @@ using UnityEngine;
 public class Timer : MonoBehaviour
 {
     private float _time = 0;
-    private bool _isWorking = false;
     private void Start()
     {
         StartCoroutine(UpdateTimer());
@@ -16,12 +15,7 @@ public class Timer : MonoBehaviour
         {
             if (_time > 0)
             {
-                _isWorking = true;
                 _time -= Time.deltaTime;
-            }
-            else
-            {
-                _isWorking = false;
             }
             yield return new WaitForEndOfFrame();
         }
@@ -36,6 +30,10 @@ public class Timer : MonoBehaviour
     }
     public bool IsWorking()
     {
-        return _isWorking;
+        if(_time > 0)
+        {
+            return true;
+        }
+        return false;
     }
 }

@@ -113,6 +113,9 @@ GameObject:
   - component: {fileID: 3301024811087971448}
   - component: {fileID: 1601220214437103467}
   - component: {fileID: 1526687328292150102}
+  - component: {fileID: 1508245297792568506}
+  - component: {fileID: 5368415114059895401}
+  - component: {fileID: 416989427193102179}
   m_Layer: 5
   m_Name: BattleCharacter
   m_TagString: Untagged
@@ -216,6 +219,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hpSlider: {fileID: 8506807425110521674}
+  _hpImage: {fileID: 5641014956444513507}
+  _hpGradient:
+    serializedVersion: 2
+    key0: {r: 0.7735849, g: 0, b: 0, a: 1}
+    key1: {r: 0.6981132, g: 0.63358176, b: 0, a: 1}
+    key2: {r: 0, g: 0.8396226, b: 0.042804237, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 46453
+    ctime2: 65535
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 3
+    m_NumAlphaKeys: 2
   _hpText: {fileID: 8848815034958871107}
   _damageText: {fileID: 8675006539096574377}
   _deffenceText: {fileID: 6073174432345745117}
@@ -243,6 +276,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _battleCharacterUI: {fileID: 1601220214437103467}
   _enemy: {fileID: 0}
+  _skillsCreator: {fileID: 1508245297792568506}
+  _skillAutoUse: {fileID: 5368415114059895401}
+  _buffManager: {fileID: 416989427193102179}
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1508245297792568506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041973619161184919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6becd40192d29e04d8dfa83cd145b71d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skillPrefub: {fileID: 3778728291009538202, guid: 3729791efa835de43a4d5b5531a58ea7,
+    type: 3}
+  _skillCreatePosition: {fileID: 0}
+  _ownerCharacter: {fileID: 1526687328292150102}
+  _enemyCharacter: {fileID: 0}
+--- !u!114 &5368415114059895401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041973619161184919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3c99085d5974b34c95fc40e38740e86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _character: {fileID: 1526687328292150102}
+  _enemy: {fileID: 0}
+  _needAutoUse: 0
+--- !u!114 &416989427193102179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041973619161184919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91d6034cb697afc49bee7b2bd7dd2c21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 1526687328292150102}
 --- !u!1 &1720763897866014151
 GameObject:
   m_ObjectHideFlags: 0

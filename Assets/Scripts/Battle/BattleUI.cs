@@ -18,12 +18,18 @@ public class BattleUI : MonoBehaviour
     {
         _enemyCountText.text = currentDefeated + "/" + maxEnemy;
     }
-    public void ShowEndGameCanvas(bool isWin) //and rewards
+    public void ShowEndGameCanvas(bool isWin)
     {
         _endGameCanvas.SetActive(true);
         if(isWin)
         {
             _winLoseText.text = "Вы выиграли";
+
+            ItemScriptableObject[] loot = PlayerData.lootRewardFromDungeon;
+            int[] lootCount = PlayerData.lootRewardCountFromDungeon;
+
+
+            //show loot
         }
         else
         {

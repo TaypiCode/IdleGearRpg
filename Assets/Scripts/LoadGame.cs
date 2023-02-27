@@ -13,8 +13,8 @@ public class LoadGame : MonoBehaviour
         if (PlayerPrefs.HasKey("SV"))
         {
             _save = JsonUtility.FromJson<Save>(PlayerPrefs.GetString("SV"));
-            _inventory.CreateFromSave(_save.playerItemsItemId, _save.playerItemsItemCount);
-            _characterItems.SetItemFromSave(_save.characterItemsItemId);
+            _inventory.CreateFromSave(_save.playerItemsItemId, _save.playerItemsItemGrade,_save.playerItemsItemCount);
+            _characterItems.SetItemsFromSave(_save.characterItemsItemId,_save.characterItemsItemGrade);
         }
     }
 }

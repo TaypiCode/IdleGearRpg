@@ -10,6 +10,7 @@ public class Inventory : MonoBehaviour
     [Header("Overview Item")]
     [SerializeField] private GameObject _itemOverviewCanvas;
     [SerializeField] private Image _itemOverviewImage;
+    [SerializeField] private Image _itemOverviewGradeImage;
     [SerializeField] private TextMeshProUGUI _itemOverviewText;
     [SerializeField] private List<InventoryCell> _cells = new List<InventoryCell>();
 
@@ -17,10 +18,12 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < _allGameItems.Items.Count; i++) //for test
         {
-            CreateItem(_allGameItems.Items[i], 1);
+            //CreateItem(_allGameItems.Items[i], 1, 1);
         }
+        AddItemsFromDungeon();
+
     }
-    public void CreateFromSave(string[] playerItemsId, int[] playerItemsCount)
+    public void CreateFromSave(string[] playerItemsId, int[] playerItemsItemGrade, int[] playerItemsCount)
     {
         List<ItemScriptableObject> allItems = _allGameItems.Items;
 
@@ -30,13 +33,13 @@ public class Inventory : MonoBehaviour
             {
                 if (playerItemsId[i] == allItems[j].itemId)
                 {
-                    CreateItem(allItems[j], playerItemsCount[i]);
+                    CreateItem(allItems[j], playerItemsItemGrade[i], playerItemsCount[i]);
                     break;
                 }
             }
         }
     }
-    public bool CreateItem(ItemScriptableObject item, int count)
+    public bool CreateItem(ItemScriptableObject item, int grade, int count)
     {
         for (int i = 0; i < _cells.Count; i++)
         {
@@ -50,14 +53,15 @@ public class Inventory : MonoBehaviour
                         {
                             if (_cells[i].GetItem.ItemsCount + count <= item.CountInStock)
                             {
-                                _cells[i].SetItem(item, Item.InventoryType.Inventory, _cells[i].GetItem.ItemsCount + count);
+
+                                _cells[i].SetItem(item, Item.InventoryType.Inventory, grade, _cells[i].GetItem.ItemsCount + count);
                                 return true;
                             }
                             else
                             {
                                 int added = item.CountInStock - _cells[i].GetItem.ItemsCount;
                                 count -= added;
-                                _cells[i].SetItem(item, Item.InventoryType.Inventory, item.CountInStock);
+                                _cells[i].SetItem(item, Item.InventoryType.Inventory, grade, item.CountInStock);
                             }
                         }
                     }
@@ -72,12 +76,12 @@ public class Inventory : MonoBehaviour
                 {
                     if (count <= item.CountInStock)
                     {
-                        _cells[i].SetItem(item, Item.InventoryType.Inventory, count);
+                        _cells[i].SetItem(item, Item.InventoryType.Inventory, grade, count);
                         return true;
                     }
                     else
                     {
-                        _cells[i].SetItem(item, Item.InventoryType.Inventory, item.CountInStock);
+                        _cells[i].SetItem(item, Item.InventoryType.Inventory, grade, item.CountInStock);
                         count = count - item.CountInStock;
                     }
                 }
@@ -85,11 +89,26 @@ public class Inventory : MonoBehaviour
         }
         return false;
     }
+    private void AddItemsFromDungeon()
+    {
+        ItemScriptableObject[] items = PlayerData.lootRewardFromDungeon;
+        int[] count = PlayerData.lootRewardCountFromDungeon;
+        if (items != null)
+        {
+            for (int i = 0; i < items.Length; i++)
+            {
+                CreateItem(items[i], items[i].StartGrade, count[i]);
+            }
+        }
+        PlayerData.lootRewardFromDungeon = null;
+        PlayerData.lootRewardCountFromDungeon = null;
+    }
     public void ShowItemOverview(Item item)
     {
         string newString = "\n";
         _itemOverviewText.text = item.ItemScriptable.ItemName + newString;
         _itemOverviewImage.sprite = item.ItemScriptable.Sprite;
+        _itemOverviewGradeImage.color = ItemGradeColor.GetGradeColor(item.ItemGrade);
         if (item.ItemScriptable is CharacterItemScriptable)
         {
             CharacterItemScriptable data = item.ItemScriptable as CharacterItemScriptable;
@@ -126,7 +145,7 @@ public class Inventory : MonoBehaviour
     private Item[] GetItems()
     {
         List<Item> items = new List<Item>();
-        for(int i = 0; i < _cells.Count; i++)
+        for (int i = 0; i < _cells.Count; i++)
         {
             if (_cells[i].GetItem != null)
             {
@@ -152,6 +171,16 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < inventoryItems.Length; i++)
         {
             items.Add(inventoryItems[i].ItemScriptable.itemId);
+        }
+        return items.ToArray();
+    }
+    public int[] GetPlayerItemsGrade()
+    {
+        List<int> items = new List<int>();
+        Item[] inventoryItems = GetItems();
+        for (int i = 0; i < inventoryItems.Length; i++)
+        {
+            items.Add(inventoryItems[i].ItemGrade);
         }
         return items.ToArray();
     }

@@ -10,14 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dac2f2bff23034b47a80c759f99c9c8e, type: 3}
-  m_Name: Sword
+  m_Name: Ring
   m_EditorClassIdentifier: 
-  itemId: 16735c81-e2a7-4440-99d6-33993b6ce42d
-  _itemName: "\u041C\u0435\u0447\u0438\u043A"
-  _sprite: {fileID: 21300000, guid: f9161c6c9e06dc445ada3ee16d991f90, type: 3}
+  itemId: 476d0269-e8bd-4d8f-bbeb-b4f05d2f7978
+  _usable: 1
+  _itemName: "\u041A\u043E\u043B\u0435\u0447\u043A\u043E"
+  _sprite: {fileID: 21300000, guid: 8325d4ef0a6eb3d43952aff8a06d9f45, type: 3}
   _countInStock: 1
-  _hp: 0
-  _damage: 10
+  _startGrade: 1
+  _maxGrade: 5
+  _hp: 5
+  _damage: 1
   _deffence: 0
-  _attackSpeed: 150
-  _position: 9
+  _attackSpeed: 10
+  _position: 8
+  _skillScriptable: {fileID: 11400000, guid: b9ff82aaef80f7d43ae8d51aeff5e649, type: 2}

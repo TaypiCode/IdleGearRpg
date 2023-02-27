@@ -7,6 +7,8 @@ using TMPro;
 public class BattleCharacterUI : MonoBehaviour
 {
     [SerializeField] private Slider _hpSlider;
+    [SerializeField] private Image _hpImage;
+    [SerializeField] private Gradient _hpGradient;
     [SerializeField] private TextMeshProUGUI _hpText;
     [SerializeField] private TextMeshProUGUI _damageText;
     [SerializeField] private TextMeshProUGUI _deffenceText;
@@ -45,6 +47,7 @@ public class BattleCharacterUI : MonoBehaviour
         {
             _currentHPAnim = Mathf.Lerp(_currentHPAnim, _endHPAnim, _hpAnimSpeed * Time.deltaTime);
             _hpSlider.value = _currentHPAnim;
+            _hpImage.color = _hpGradient.Evaluate(Mathf.Clamp(_currentHPAnim / _maxHP, 0, 1));
             if (_currentHPAnim < 0 || _currentHPAnim > _maxHP)
             {
                 _needAnimHP = false;
@@ -77,6 +80,7 @@ public class BattleCharacterUI : MonoBehaviour
             _hpSlider.value = val;
             _currentHPAnim = val;
         }
+        _hpImage.color = _hpGradient.Evaluate(Mathf.Clamp(val / _maxHP, 0, 1));
         _hpText.text = Mathf.RoundToInt(val) + "/" + Mathf.RoundToInt(_maxHP);
 
     }

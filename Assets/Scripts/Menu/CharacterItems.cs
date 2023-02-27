@@ -6,10 +6,7 @@ using TMPro;
 public class CharacterItems : MonoBehaviour
 {
     [SerializeField] private AllGameItems _allGameItems;
-    [SerializeField] private float _startHP;
-    [SerializeField] private float _startDamage;
-    [SerializeField] private float _startDeffence;
-    [SerializeField] private float _startAttackSpeed;
+    [SerializeField] private StartCharacterStats _startCharacterStats;
     [SerializeField] private TextMeshProUGUI _hpText;
     [SerializeField] private TextMeshProUGUI _damageText;
     [SerializeField] private TextMeshProUGUI _deffenceText;
@@ -30,7 +27,7 @@ public class CharacterItems : MonoBehaviour
     {
         CalculateStats();
     }
-    public void SetItemFromSave(string[] ids)
+    public void SetItemsFromSave(string[] ids, int[] itemGrade)
     {
         ItemScriptableObject[] allItems = _allGameItems.Items.ToArray();
         for (int i = 0; i < ids.Length; i++)
@@ -41,14 +38,14 @@ public class CharacterItems : MonoBehaviour
                 {
                     if (ids[i] == allItems[j].itemId)
                     {
-                        TrySetItem(allItems[j], null);
+                        TrySetItem(allItems[j], null, itemGrade[i]);
                         break;
                     }
                 }
             }
         }
     }
-    public void TrySetItem(ItemScriptableObject item, Item sender)
+    public void TrySetItem(ItemScriptableObject item, Item sender, int grade)
     {
         if (item is CharacterItemScriptable)
         {
@@ -57,51 +54,51 @@ public class CharacterItems : MonoBehaviour
             {
                 case CharacterItemScriptable.Position.Head:
                     SetOrDestroySender(_headItemCell, sender);
-                    _headItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
+                    _headItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
                     break;
                 case CharacterItemScriptable.Position.Body:
                     SetOrDestroySender(_bodyItemCell, sender);
-                    _bodyItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
+                    _bodyItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
                     break;
                 case CharacterItemScriptable.Position.Hand:
                     SetOrDestroySender(_handItemCell, sender);
-                    _handItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
+                    _handItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
                     break;
                 case CharacterItemScriptable.Position.Leg:
                     SetOrDestroySender(_legItemCell, sender);
-                    _legItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
+                    _legItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
                     break;
                 case CharacterItemScriptable.Position.Boots:
                     SetOrDestroySender(_bootsItemCell, sender);
-                    _bootsItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
+                    _bootsItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
                     break;
                 case CharacterItemScriptable.Position.Cloak:
                     SetOrDestroySender(_cloakItemCell, sender);
-                    _cloakItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
+                    _cloakItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
                     break;
                 case CharacterItemScriptable.Position.Neck:
                     SetOrDestroySender(_neckItemCell, sender);
-                    _neckItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
+                    _neckItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
                     break;
                 case CharacterItemScriptable.Position.Earring:
                     SetOrDestroySender(_earringItemCell, sender);
-                    _earringItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
+                    _earringItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
                     break;
                 case CharacterItemScriptable.Position.Ring:
                     SetOrDestroySender(_ringItemCell, sender);
-                    _ringItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
+                    _ringItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
                     break;
                 case CharacterItemScriptable.Position.MainHand:
                     SetOrDestroySender(_mainHandItemCell, sender);
-                    _mainHandItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
+                    _mainHandItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
                     break;
                 case CharacterItemScriptable.Position.SecondHand:
                     SetOrDestroySender(_secondHandItemCell, sender);
-                    _secondHandItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
+                    _secondHandItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
                     break;
                 case CharacterItemScriptable.Position.MusicianInstrument:
                     SetOrDestroySender(_musicianItemCell, sender);
-                    _musicianItemCell.SetItem(scriptable, Item.InventoryType.Character, 1);
+                    _musicianItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
                     break;
                 default: return;
             }
@@ -118,7 +115,7 @@ public class CharacterItems : MonoBehaviour
             {
                 if (itemCell.GetItem.ItemScriptable != null)
                 {
-                    FindObjectOfType<Inventory>().CreateItem(itemCell.GetItem.ItemScriptable, itemCell.GetItem.ItemsCount);
+                    FindObjectOfType<Inventory>().CreateItem(itemCell.GetItem.ItemScriptable, itemCell.GetItem.ItemGrade, itemCell.GetItem.ItemsCount);
                 }
 
             }
@@ -126,11 +123,12 @@ public class CharacterItems : MonoBehaviour
     }
     public void CalculateStats()
     {
-        PlayerData.playerDeffence = _startDeffence;
-        PlayerData.playerDamage = _startDamage;
-        PlayerData.playerHP = _startHP;
-        PlayerData.playerAttackSpeed = _startAttackSpeed;
+        PlayerData.playerDeffence = _startCharacterStats.StartDeffence;
+        PlayerData.playerDamage = _startCharacterStats.StartDamage;
+        PlayerData.playerHP = _startCharacterStats.StartHP;
+        PlayerData.playerAttackSpeed = _startCharacterStats.StartAttackSpeed;
         Item[] itemList = GetItems();
+        List<SkillScriptableObject> skillList = new List<SkillScriptableObject>();
         for (int i = 0; i < itemList.Length; i++)
         {
             if (itemList[i] != null)
@@ -140,8 +138,13 @@ public class CharacterItems : MonoBehaviour
                 PlayerData.playerDamage += data.Damage;
                 PlayerData.playerDeffence += data.Deffence;
                 PlayerData.playerAttackSpeed += data.AttackSpeed;
+                if(data.SkillScriptable != null)
+                {
+                    skillList.Add(data.SkillScriptable);
+                }
             }
         }
+        PlayerData.playerSkills = skillList.ToArray();
         _hpText.text = "Здоровье: " + Mathf.RoundToInt(PlayerData.playerHP);
         _damageText.text = "Урон: " + StringConverter.ConvertToFormat(PlayerData.playerDamage);
         _deffenceText.text = "Защита: " + StringConverter.ConvertToFormat(PlayerData.playerDeffence) + "%";
@@ -182,5 +185,22 @@ public class CharacterItems : MonoBehaviour
             }
         }
         return ids;
+    }
+    public int[] GetItemsGrade()
+    {
+        Item[] items = GetItems();
+        int[] grades = new int[items.Length];
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] != null)
+            {
+                grades[i] = items[i].ItemGrade;
+            }
+            else
+            {
+                grades[i] = -1;
+            }
+        }
+        return grades;
     }
 }
