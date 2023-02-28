@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using TMPro;
+using UnityEditor;
+
 public class CharacterItems : MonoBehaviour
 {
     [SerializeField] private GameObject _canvas;
@@ -135,11 +137,12 @@ public class CharacterItems : MonoBehaviour
         {
             if (itemList[i] != null)
             {
+                int grade = itemList[i].ItemGrade;
                 CharacterItemScriptable data = itemList[i].ItemScriptable as CharacterItemScriptable;
-                PlayerData.playerHP += data.Hp;
-                PlayerData.playerDamage += data.Damage;
-                PlayerData.playerDeffence += data.Deffence;
-                PlayerData.playerAttackSpeed += data.AttackSpeed;
+                PlayerData.playerHP += CalculateStatByGrade(data.Hp, grade);
+                PlayerData.playerDamage += CalculateStatByGrade(data.Damage, grade);
+                PlayerData.playerDeffence += CalculateStatByGrade(data.Deffence, grade);
+                PlayerData.playerAttackSpeed += CalculateStatByGrade(data.AttackSpeed, grade);
                 if(data.SkillScriptable != null)
                 {
                     skillList.Add(data.SkillScriptable);
@@ -225,5 +228,15 @@ public class CharacterItems : MonoBehaviour
     public bool IsActive()
     {
         return _canvas.activeSelf;
+    }
+    public static float CalculateStatByGrade(float val, int grade)
+    {
+        if(grade> 1)
+        {
+            grade--;
+            grade *= 10; //10%
+            val = val + (val / 100 * grade);
+        }
+        return val;
     }
 }

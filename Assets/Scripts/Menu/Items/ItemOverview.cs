@@ -46,21 +46,22 @@ public class ItemOverview : MonoBehaviour
         if (item.ItemScriptable is CharacterItemScriptable)
         {
             CharacterItemScriptable data = item.ItemScriptable as CharacterItemScriptable;
+            int grade = item.ItemGrade;
             if (data.Hp != 0)
             {
-                _itemOverviewText.text += "Здоровье: " + Mathf.RoundToInt(data.Hp) + newString;
+                _itemOverviewText.text += "Здоровье: " + Mathf.RoundToInt(CharacterItems.CalculateStatByGrade(data.Hp, grade)) + newString;
             }
             if (data.Damage != 0)
             {
-                _itemOverviewText.text += "Урон: " + StringConverter.ConvertToFormat(data.Damage) + newString;
+                _itemOverviewText.text += "Урон: " + StringConverter.ConvertToFormat((CharacterItems.CalculateStatByGrade(data.Damage, grade))) + newString;
             }
             if (data.Deffence != 0)
             {
-                _itemOverviewText.text += "Защита: " + StringConverter.ConvertToFormat(data.Deffence) + "%" + newString;
+                _itemOverviewText.text += "Защита: " + StringConverter.ConvertToFormat((CharacterItems.CalculateStatByGrade(data.Deffence, grade))) + "%" + newString;
             }
             if (data.AttackSpeed != 0)
             {
-                _itemOverviewText.text += "Скорость атаки: " + StringConverter.ConvertToFormat(data.AttackSpeed) + newString;
+                _itemOverviewText.text += "Скорость атаки: " + StringConverter.ConvertToFormat((CharacterItems.CalculateStatByGrade(data.AttackSpeed, grade))) + newString;
             }
 
         }
