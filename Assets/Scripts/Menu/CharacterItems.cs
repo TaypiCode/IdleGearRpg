@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 public class CharacterItems : MonoBehaviour
 {
+    [SerializeField] private GameObject _canvas;
     [SerializeField] private AllGameItems _allGameItems;
     [SerializeField] private StartCharacterStats _startCharacterStats;
     [SerializeField] private TextMeshProUGUI _hpText;
@@ -27,7 +28,7 @@ public class CharacterItems : MonoBehaviour
     {
         CalculateStats();
     }
-    public void SetItemsFromSave(string[] ids, int[] itemGrade)
+    public void SetItemsFromSave(string[] ids, int[] itemGrade, int[] xp)
     {
         ItemScriptableObject[] allItems = _allGameItems.Items.ToArray();
         for (int i = 0; i < ids.Length; i++)
@@ -38,14 +39,14 @@ public class CharacterItems : MonoBehaviour
                 {
                     if (ids[i] == allItems[j].itemId)
                     {
-                        TrySetItem(allItems[j], null, itemGrade[i]);
+                        TrySetItem(allItems[j], null, itemGrade[i], xp[i]);
                         break;
                     }
                 }
             }
         }
     }
-    public void TrySetItem(ItemScriptableObject item, Item sender, int grade)
+    public void TrySetItem(ItemScriptableObject item, Item sender, int grade, int xp)
     {
         if (item is CharacterItemScriptable)
         {
@@ -54,56 +55,57 @@ public class CharacterItems : MonoBehaviour
             {
                 case CharacterItemScriptable.Position.Head:
                     SetOrDestroySender(_headItemCell, sender);
-                    _headItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
+                    _headItemCell.SetItem(scriptable, Item.InventoryType.Character, grade, xp);
                     break;
                 case CharacterItemScriptable.Position.Body:
                     SetOrDestroySender(_bodyItemCell, sender);
-                    _bodyItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
+                    _bodyItemCell.SetItem(scriptable, Item.InventoryType.Character, grade, xp);
                     break;
                 case CharacterItemScriptable.Position.Hand:
                     SetOrDestroySender(_handItemCell, sender);
-                    _handItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
+                    _handItemCell.SetItem(scriptable, Item.InventoryType.Character, grade, xp);
                     break;
                 case CharacterItemScriptable.Position.Leg:
                     SetOrDestroySender(_legItemCell, sender);
-                    _legItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
+                    _legItemCell.SetItem(scriptable, Item.InventoryType.Character, grade, xp);
                     break;
                 case CharacterItemScriptable.Position.Boots:
                     SetOrDestroySender(_bootsItemCell, sender);
-                    _bootsItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
+                    _bootsItemCell.SetItem(scriptable, Item.InventoryType.Character, grade, xp);
                     break;
                 case CharacterItemScriptable.Position.Cloak:
                     SetOrDestroySender(_cloakItemCell, sender);
-                    _cloakItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
+                    _cloakItemCell.SetItem(scriptable, Item.InventoryType.Character, grade, xp);
                     break;
                 case CharacterItemScriptable.Position.Neck:
                     SetOrDestroySender(_neckItemCell, sender);
-                    _neckItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
+                    _neckItemCell.SetItem(scriptable, Item.InventoryType.Character, grade, xp);
                     break;
                 case CharacterItemScriptable.Position.Earring:
                     SetOrDestroySender(_earringItemCell, sender);
-                    _earringItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
+                    _earringItemCell.SetItem(scriptable, Item.InventoryType.Character, grade, xp);
                     break;
                 case CharacterItemScriptable.Position.Ring:
                     SetOrDestroySender(_ringItemCell, sender);
-                    _ringItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
+                    _ringItemCell.SetItem(scriptable, Item.InventoryType.Character, grade, xp);
                     break;
                 case CharacterItemScriptable.Position.MainHand:
                     SetOrDestroySender(_mainHandItemCell, sender);
-                    _mainHandItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
+                    _mainHandItemCell.SetItem(scriptable, Item.InventoryType.Character, grade, xp);
                     break;
                 case CharacterItemScriptable.Position.SecondHand:
                     SetOrDestroySender(_secondHandItemCell, sender);
-                    _secondHandItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
+                    _secondHandItemCell.SetItem(scriptable, Item.InventoryType.Character, grade, xp);
                     break;
                 case CharacterItemScriptable.Position.MusicianInstrument:
                     SetOrDestroySender(_musicianItemCell, sender);
-                    _musicianItemCell.SetItem(scriptable, Item.InventoryType.Character, grade);
+                    _musicianItemCell.SetItem(scriptable, Item.InventoryType.Character, grade, xp);
                     break;
                 default: return;
             }
 
             CalculateStats();
+            return;
         }
     }
     private void SetOrDestroySender(InventoryCell itemCell, Item sender)
@@ -115,7 +117,7 @@ public class CharacterItems : MonoBehaviour
             {
                 if (itemCell.GetItem.ItemScriptable != null)
                 {
-                    FindObjectOfType<Inventory>().CreateItem(itemCell.GetItem.ItemScriptable, itemCell.GetItem.ItemGrade, itemCell.GetItem.ItemsCount);
+                    FindObjectOfType<Inventory>().CreateItem(itemCell.GetItem.ItemScriptable, itemCell.GetItem.ItemGrade, itemCell.GetItem.UpgradeXP, itemCell.GetItem.ItemsCount);
                 }
 
             }
@@ -202,5 +204,26 @@ public class CharacterItems : MonoBehaviour
             }
         }
         return grades;
+    }
+    public int[] GetItemsXP()
+    {
+        Item[] items = GetItems();
+        int[] xp = new int[items.Length];
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i] != null)
+            {
+                xp[i] = items[i].UpgradeXP;
+            }
+            else
+            {
+                xp[i] = 0;
+            }
+        }
+        return xp;
+    }
+    public bool IsActive()
+    {
+        return _canvas.activeSelf;
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 [CreateAssetMenu(fileName = "CharacterItemScriptable", menuName = "ScriptableObjects/Items/CharacterItem", order = 1)]
-public class CharacterItemScriptable : ItemScriptableObject
+public class CharacterItemScriptable : UpgradeItemScriptable
 {
     [SerializeField] private float _hp;
     [SerializeField] private float _damage;

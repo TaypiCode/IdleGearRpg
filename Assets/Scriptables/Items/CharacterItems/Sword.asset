@@ -19,6 +19,8 @@ MonoBehaviour:
   _countInStock: 1
   _startGrade: 1
   _maxGrade: 5
+  _needExpForUpgradeByGrade: 2c010000f401000084030000d0070000
+  _giveExpByGrade: c80000005e010000c2010000f4010000e8030000
   _hp: 0
   _damage: 10
   _deffence: 0

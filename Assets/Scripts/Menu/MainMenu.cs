@@ -12,6 +12,7 @@ public class MainMenu : MonoBehaviour
         PlayerData.loot = dungeon.Loot;
         PlayerData.lootDropChance = dungeon.LootDropChance;
         PlayerData.lootDropCount = dungeon.LootDropCount;
+        FindObjectOfType<UpgradeItems>().UndressItems();
         _saveGame.SaveProgress();
         SceneManager.LoadScene(1);
     }

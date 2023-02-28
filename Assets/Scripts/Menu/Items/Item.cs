@@ -17,17 +17,20 @@ public class Item : MonoBehaviour
     private InventoryType _inventoryType;
     private int _itemsCount;
     private int _itemGrade;
+    private int _upgradeXP;
     private bool _inInventory;
     public ItemScriptableObject ItemScriptable { get => _itemScriptable;}
     public int ItemsCount { get => _itemsCount;  }
     public int ItemGrade { get => _itemGrade;  }
+    public int UpgradeXP { get => _upgradeXP; }
 
     public enum InventoryType
     {
         Character,
-        Inventory
+        Inventory,
+        Upgrade
     }
-    public void Set(ItemScriptableObject item, InventoryType inventoryType, int itemGrade = 1, int itemsCount = 1, bool inInventory = true)
+    public void Set(ItemScriptableObject item, InventoryType inventoryType, int itemGrade = 1, int xp = 0, int itemsCount = 1, bool inInventory = true)
     {
         _inventoryType= inventoryType;
         if (item is CharacterItemScriptable)
@@ -38,8 +41,13 @@ public class Item : MonoBehaviour
         {
             _itemScriptable = item as MiscItemScriptable;
         }
+        else if (item is UpgradeItemScriptable)
+        {
+            _itemScriptable = item as UpgradeItemScriptable;
+        }
         _itemsCount = itemsCount;
         _itemImage.sprite = item.Sprite;
+        _upgradeXP = xp;
         TryUpdateGrade(itemGrade);
         if (itemsCount > _itemScriptable.CountInStock)
         {
@@ -58,10 +66,32 @@ public class Item : MonoBehaviour
                 }
                 UnSelect();
                 break;
-            case InventoryType.Inventory:
-                if (_itemScriptable is CharacterItemScriptable)
+            case InventoryType.Upgrade:
+                if (UndressItem())
                 {
-                    WearItem();
+                    Remove();
+                    FindObjectOfType<UpgradeItems>().UpdateAfterUndress();
+                }
+                UnSelect();
+                break;
+            case InventoryType.Inventory:
+                if(_itemScriptable is UpgradeItemScriptable)
+                {
+                    if (_itemScriptable is CharacterItemScriptable)
+                    {
+                        if (FindObjectOfType<CharacterItems>().IsActive())
+                        {
+                            WearItem();
+                        }
+                        else if (FindObjectOfType<UpgradeItems>().IsActive())
+                        {
+                            SendItemToUpgrade();
+                        }
+                    }
+                    else
+                    {
+                        SendItemToUpgrade();
+                    }
                 }
                 UnSelect();
                 break;
@@ -69,14 +99,22 @@ public class Item : MonoBehaviour
 
         }
     }
+    private void SendItemToUpgrade()
+    {
+        if (FindObjectOfType<UpgradeItems>().TrySetItem(this))
+        {
+            Remove();
+        }
+    }
     private void WearItem()
     {
-        FindObjectOfType<CharacterItems>().TrySetItem(_itemScriptable, this, _itemGrade);
+
+        FindObjectOfType<CharacterItems>().TrySetItem(_itemScriptable, this, _itemGrade, _upgradeXP);
     }
     private bool UndressItem()
     {
         Inventory inventory = FindObjectOfType<Inventory>();
-        if (inventory.CreateItem(_itemScriptable,_itemGrade, _itemsCount))
+        if (inventory.CreateItem(_itemScriptable,_itemGrade, _upgradeXP, _itemsCount))
         {
             return true;
         }
@@ -86,7 +124,7 @@ public class Item : MonoBehaviour
     {
         if (_inInventory)
         {
-            FindObjectOfType<Inventory>().ShowItemOverview(this);
+            FindObjectOfType<ItemOverview>().ShowItemOverview(this);
             _useBtn.SetActive(_itemScriptable.Usable);
             _deleteBtn.SetActive(true);
         }
@@ -95,7 +133,7 @@ public class Item : MonoBehaviour
     {
         if (_inInventory)
         {
-            FindObjectOfType<Inventory>().HideItemOverview();
+            FindObjectOfType<ItemOverview>().HideItemOverview();
             _useBtn.SetActive(false);
             _deleteBtn.SetActive(false);
         }

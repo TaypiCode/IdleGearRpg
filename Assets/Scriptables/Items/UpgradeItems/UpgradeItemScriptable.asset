@@ -9,14 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34b62fcbc7737be43a7b2cf1b9b4e9cc, type: 3}
-  m_Name: Iron
+  m_Script: {fileID: 11500000, guid: 046e4f04b3838fe4a9af40461c3f337e, type: 3}
+  m_Name: UpgradeItemScriptable
   m_EditorClassIdentifier: 
-  itemId: 424117db-8a08-4624-9ab2-790446e93994
-  _usable: 0
-  _itemName: "\u0436\u0435\u043B\u0435\u0437\u044F\u043A\u0430"
+  itemId: 2d8f9a3c-b801-44e8-abd8-606f99fb4f48
+  _usable: 1
+  _itemName: upgrade Item
   _sprite: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}
-  _countInStock: 50
+  _countInStock: 1
   _startGrade: 1
-  _maxGrade: 3
-  _info: "\u0436\u0435\u043B\u0435\u0437\u044F\u043A\u0430"
+  _maxGrade: 5
+  _needExpForUpgradeByGrade: 2c010000f401000020030000e8030000
+  _giveExpByGrade: 96000000af000000c8000000e1000000fa000000

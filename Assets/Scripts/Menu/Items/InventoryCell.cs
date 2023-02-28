@@ -14,14 +14,14 @@ public class InventoryCell : MonoBehaviour
     {
         _transform = transform;
     }
-    public Item SetItem(ItemScriptableObject item, Item.InventoryType inventoryType, int itemGrade = 1, int count = 1)
+    public Item SetItem(ItemScriptableObject item, Item.InventoryType inventoryType, int itemGrade = 1, int xp = 0, int count = 1)
     {
         if(_transform== null)
         {
             _transform = transform;
         }
         _item = Instantiate(_itemPrefub, _transform).GetComponent<Item>();
-        _item.Set(item, inventoryType, itemGrade, count);
+        _item.Set(item, inventoryType, itemGrade, xp, count);
         return _item;
     }
     public void DeleteItem(bool needRecalcPlayerStat = false)
