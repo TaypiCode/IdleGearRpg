@@ -45,19 +45,22 @@ public class Inventory : MonoBehaviour
                 {
                     if (_cells[i].GetItem.ItemScriptable.itemId == item.itemId)
                     {
-                        if (_cells[i].GetItem.ItemsCount != item.CountInStock)
+                        if (_cells[i].GetItem.ItemGrade == grade)
                         {
-                            if (_cells[i].GetItem.ItemsCount + count <= item.CountInStock)
+                            if (_cells[i].GetItem.ItemsCount != item.CountInStock)
                             {
+                                if (_cells[i].GetItem.ItemsCount + count <= item.CountInStock)
+                                {
 
-                                _cells[i].SetItem(item, Item.InventoryType.Inventory, grade, xp, _cells[i].GetItem.ItemsCount + count);
-                                return true;
-                            }
-                            else
-                            {
-                                int added = item.CountInStock - _cells[i].GetItem.ItemsCount;
-                                count -= added;
-                                _cells[i].SetItem(item, Item.InventoryType.Inventory, grade, xp, item.CountInStock);
+                                    _cells[i].SetItem(item, Item.InventoryType.Inventory, grade, xp, _cells[i].GetItem.ItemsCount + count);
+                                    return true;
+                                }
+                                else
+                                {
+                                    int added = item.CountInStock - _cells[i].GetItem.ItemsCount;
+                                    count -= added;
+                                    _cells[i].SetItem(item, Item.InventoryType.Inventory, grade, xp, item.CountInStock);
+                                }
                             }
                         }
                     }

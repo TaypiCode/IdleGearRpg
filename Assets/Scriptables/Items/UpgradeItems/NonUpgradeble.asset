@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 046e4f04b3838fe4a9af40461c3f337e, type: 3}
-  m_Name: UpgradeItemScriptable
+  m_Name: NonUpgradeble
   m_EditorClassIdentifier: 
-  itemId: 2d8f9a3c-b801-44e8-abd8-606f99fb4f48
+  itemId: d72d3730-f9bb-484d-b997-f5df9ee72c0e
   _usable: 1
-  _itemName: upgrade Item
-  _sprite: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}
-  _countInStock: 1
+  _itemName: non upgradeable
+  _sprite: {fileID: 21300000, guid: e5600378dd761e64d9423790c482bf36, type: 3}
+  _countInStock: 100
   _startGrade: 1
   _maxGrade: 5
-  _upgradeable: 1
-  _needExpForUpgradeByGrade: 2c010000f401000020030000e8030000
-  _giveExpByGrade: 96000000af000000c8000000e1000000fa000000
+  _upgradeable: 0
+  _needExpForUpgradeByGrade: 
+  _giveExpByGrade: 6400000064000000640000006400000064000000

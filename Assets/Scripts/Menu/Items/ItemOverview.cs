@@ -24,20 +24,26 @@ public class ItemOverview : MonoBehaviour
         if (item.ItemScriptable is UpgradeItemScriptable)
         {
             UpgradeItemScriptable upgradeData = item.ItemScriptable as UpgradeItemScriptable;
-            if (item.ItemGrade == item.ItemScriptable.MaxGrade)
+            if (upgradeData.Upgradeable)
             {
-                _itemOverviewUpgradeProgressSlider.value = _itemOverviewUpgradeProgressSlider.maxValue;
-                _itemOverviewUpgradeProgressText.text = "Макс";
+                if (item.ItemGrade == item.ItemScriptable.MaxGrade)
+                {
+                    _itemOverviewUpgradeProgressSlider.value = _itemOverviewUpgradeProgressSlider.maxValue;
+                    _itemOverviewUpgradeProgressText.text = "Макс";
+                }
+                else
+                {
+                    _itemOverviewUpgradeProgressSlider.maxValue = upgradeData.NeedExpForUpgradeByGrade[item.ItemGrade - 1];
+                    _itemOverviewUpgradeProgressSlider.value = item.UpgradeXP;
+                    _itemOverviewUpgradeProgressText.text = _itemOverviewUpgradeProgressSlider.value + "/" + _itemOverviewUpgradeProgressSlider.maxValue;
+                }
+                _itemOverviewUpgradeProgressSliderFillImg.color = ItemGradeColor.GetGradeColor(item.ItemGrade);
+                _itemOverviewUpgradeProgressCanvas.SetActive(true);
             }
             else
             {
-                _itemOverviewUpgradeProgressSlider.maxValue = upgradeData.NeedExpForUpgradeByGrade[item.ItemGrade - 1];
-                _itemOverviewUpgradeProgressSlider.value = item.UpgradeXP;
-                _itemOverviewUpgradeProgressText.text = _itemOverviewUpgradeProgressSlider.value + "/" + _itemOverviewUpgradeProgressSlider.maxValue;
+                _itemOverviewUpgradeProgressCanvas.SetActive(false);
             }
-            _itemOverviewUpgradeProgressSliderFillImg.color = ItemGradeColor.GetGradeColor(item.ItemGrade);
-            _itemOverviewUpgradeProgressCanvas.SetActive(true);
-
         }
         else
         {

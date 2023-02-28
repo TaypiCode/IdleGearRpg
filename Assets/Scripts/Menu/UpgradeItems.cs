@@ -43,11 +43,14 @@ public class UpgradeItems : MonoBehaviour
     {
         if (item.ItemScriptable is UpgradeItemScriptable)
         {
-            if (item.ItemGrade != item.ItemScriptable.MaxGrade)
+            if (((UpgradeItemScriptable)item.ItemScriptable).Upgradeable)
             {
-                _mainItemCell.SetItem(item.ItemScriptable, Item.InventoryType.Upgrade, item.ItemGrade, item.UpgradeXP, 1);
-                UpdateInfo();
-                return true;
+                if (item.ItemGrade != item.ItemScriptable.MaxGrade)
+                {
+                    _mainItemCell.SetItem(item.ItemScriptable, Item.InventoryType.Upgrade, item.ItemGrade, item.UpgradeXP, 1);
+                    UpdateInfo();
+                    return true;
+                }
             }
         }
         return false;
@@ -56,7 +59,7 @@ public class UpgradeItems : MonoBehaviour
     {
         if (item.ItemScriptable is UpgradeItemScriptable)
         {
-            _secondItemCell.SetItem(item.ItemScriptable, Item.InventoryType.Upgrade, item.ItemGrade, item.UpgradeXP, 1);
+            _secondItemCell.SetItem(item.ItemScriptable, Item.InventoryType.Upgrade, item.ItemGrade, item.UpgradeXP, item.ItemsCount);
             UpdateInfo();
             return true;
         }
@@ -72,12 +75,17 @@ public class UpgradeItems : MonoBehaviour
             {
                 Item secondItem = _secondItemCell.GetItem;
                 UpgradeItemScriptable secondItemUpgradeData = secondItem.ItemScriptable as UpgradeItemScriptable;
-                int giveXp = secondItemUpgradeData.GiveExpByGrade[secondItem.ItemGrade - 1];
-                int[] newData = GetNewXPAndGrade(mainItem, giveXp);
+                int giveXPPerItem = secondItemUpgradeData.GiveExpByGrade[secondItem.ItemGrade - 1];
+                int giveXP = giveXPPerItem * secondItem.ItemsCount;
+                _infoText.text = "Перевести " + giveXP + " опыта";
+                int notUsedXP;
+                int[] newData = GetNewXPAndGrade(mainItem, giveXP, out notUsedXP);
                 int newXp = newData[1];
                 int newGrade = newData[0];
                 _mainItemCell.GetItem.Set(mainItem.ItemScriptable, Item.InventoryType.Upgrade, newGrade, newXp, 1);
-                _secondItemCell.DeleteItem();
+                int notUsedCount = Mathf.CeilToInt(notUsedXP / giveXPPerItem);
+                _secondItemCell.GetItem.ChangeCount(-(secondItem.ItemsCount - notUsedCount));
+                _secondItemCell.GetItem?.Use();
                 UpdateInfo();
             }
         }
@@ -93,9 +101,11 @@ public class UpgradeItems : MonoBehaviour
             {
                 Item secondItem = _secondItemCell.GetItem;
                 UpgradeItemScriptable secondItemUpgradeData = secondItem.ItemScriptable as UpgradeItemScriptable;
-                int giveXp = secondItemUpgradeData.GiveExpByGrade[secondItem.ItemGrade - 1];
-                _infoText.text = "Перевести " + giveXp + " опыта";
-                int[] newData = GetNewXPAndGrade(mainItem, giveXp);
+                int giveXPPerItem = secondItemUpgradeData.GiveExpByGrade[secondItem.ItemGrade - 1];
+                int giveXP = giveXPPerItem * secondItem.ItemsCount;
+                _infoText.text = "Перевести " + giveXP + " опыта";
+                int notUsedXP;
+                int[] newData = GetNewXPAndGrade(mainItem, giveXP, out notUsedXP);
                 int newXp = newData[1];
                 int newGrade = newData[0];
                 
@@ -123,6 +133,7 @@ public class UpgradeItems : MonoBehaviour
                     _xpSlider.maxValue = 1;
                     _xpSlider.value = 1;
                     _xpSliderText.text = "Макс";
+                    _infoText.text = "";
                 }
                 else
                 {
@@ -144,8 +155,9 @@ public class UpgradeItems : MonoBehaviour
             _upgradeBtn.SetActive(false);
         }
     }
-    private int[] GetNewXPAndGrade(Item item, int addXP)
+    private int[] GetNewXPAndGrade(Item item, int addXP, out int notUsedXP)
     {
+        notUsedXP = 0;
         int[] newVal = new int[2];
         int newXP = item.UpgradeXP;
         int newGrade = item.ItemGrade;
@@ -159,7 +171,6 @@ public class UpgradeItems : MonoBehaviour
             if(newXP + addXP > needXP)
             {
                 int currentXp = newXP;
-                newXP += addXP;
                 addXP -= needXP - currentXp;
                 newXP = 0;
                 newGrade++;
@@ -167,6 +178,7 @@ public class UpgradeItems : MonoBehaviour
             else if(newXP + addXP < needXP)
             {
                 newXP += addXP;
+                addXP = 0;
                 needCheckForNewGrade = false;
             }
             else // == 0
@@ -183,6 +195,7 @@ public class UpgradeItems : MonoBehaviour
                 break;
             }
         }
+        notUsedXP = addXP;
         newVal[0] = newGrade;
         newVal[1] = newXP;
         return newVal;

@@ -153,7 +153,14 @@ public class Item : MonoBehaviour
         _itemGrade = grade;
         _itemGradeImage.color = ItemGradeColor.GetGradeColor(_itemGrade);
     }
-
+    public void ChangeCount(int val)
+    {
+        _itemsCount += val;
+        if(_itemsCount <= 0)
+        {
+            Remove();
+        }
+    }
 }
 [Serializable]
 public class FloatUnityEvent : UnityEvent<float>

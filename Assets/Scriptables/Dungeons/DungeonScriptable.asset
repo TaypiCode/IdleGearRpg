@@ -23,7 +23,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
   - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
   _loot:
-  - {fileID: 11400000, guid: 7321268f8f1650949af19fef50aab548, type: 2}
+  - {fileID: 11400000, guid: 32330026a43b22242af4fba7ff08b108, type: 2}
+  - {fileID: 11400000, guid: 23e31a8eb883c6c4aa76e05358bea01c, type: 2}
   _lootDropChance:
   - 100
-  _lootDropCount: 05000000
+  - 100
+  _lootDropCount: 0a00000001000000
