@@ -33,6 +33,7 @@ public class BattleCharacter : MonoBehaviour
     public float Deffence { get => _deffence; }
     public float AttackSpeed { get => _attackSpeed;  }
     public BuffManager BuffManager { get => _buffManager; }
+    public float UsedDamage { get => _usedDamage;  }
 
     private void Awake()
     {
@@ -96,7 +97,7 @@ public class BattleCharacter : MonoBehaviour
         {
             if(_usedDeffence >= 100)
             {
-                val = val * 0.01f; //1% 
+                val = val * 0.001f; //damage = 0.1% 
             }
             else
             {

@@ -39,13 +39,31 @@ public class Skill : MonoBehaviour
                 if (_skill is AttackSkillScriptable)
                 {
                     AttackSkillScriptable skill = _skill as AttackSkillScriptable;
-                    _enemy.GetDamage(skill.Damage);
+                    switch (skill.GetVariant)
+                    {
+                        case AttackSkillScriptable.Variant.Simple:
+                            _enemy.GetDamage(skill.Damage);
+                            break;
+                        case AttackSkillScriptable.Variant.Percent:
+                            float dmg = (_owner.UsedDamage / 100) * skill.Damage;
+                            _enemy.GetDamage(dmg);
+                            break;
+                    }
                     StartCooldown();
                 }
                 if (_skill is HealthSkillScriptable)
                 {
                     HealthSkillScriptable skill = _skill as HealthSkillScriptable;
-                    _owner.Health(skill.Health);
+                    switch (skill.GetVariant)
+                    {
+                        case HealthSkillScriptable.Variant.Simple:
+                            _owner.Health(skill.Health);
+                            break;
+                        case HealthSkillScriptable.Variant.Percent:
+                            float hp = (_owner.MaxHP / 100) * skill.Health;
+                            _owner.Health(hp);
+                            break;
+                    }
                     StartCooldown();
                 }
                 if (_skill is BuffSkillScriptable)

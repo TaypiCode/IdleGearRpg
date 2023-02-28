@@ -5,6 +5,13 @@ using UnityEngine;
 public class AttackSkillScriptable : SkillScriptableObject
 {
     [SerializeField] private float _damage;
+    [SerializeField] private Variant _variant;
+    public enum Variant
+    {
+        Simple,
+        Percent
+    }
 
     public float Damage { get => _damage; }
+    public Variant GetVariant { get => _variant;  }
 }
