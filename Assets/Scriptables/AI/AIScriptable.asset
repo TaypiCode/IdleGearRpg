@@ -18,7 +18,7 @@ MonoBehaviour:
   _hp: 1
   _damage: 1
   _deffence: 1
-  _attackSpeed: 0
+  _attackSpeed: 30
   _skills:
   - {fileID: 11400000, guid: 72e38614564535c4789abdf3bb18ec4e, type: 2}
   - {fileID: 11400000, guid: b9ff82aaef80f7d43ae8d51aeff5e649, type: 2}

@@ -16,6 +16,7 @@ MonoBehaviour:
   _dungeonName: dung
   _dungeonDescription: descrip
   _sprite: {fileID: 21300000, guid: 02800fb9cff14da47a04572790384d8b, type: 3}
+  _grade: 1
   _enemies:
   - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
   - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
@@ -24,8 +25,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
   _loot:
   - {fileID: 11400000, guid: 32330026a43b22242af4fba7ff08b108, type: 2}
-  - {fileID: 11400000, guid: 23e31a8eb883c6c4aa76e05358bea01c, type: 2}
   _lootDropChance:
   - 100
-  - 100
-  _lootDropCount: 0a00000001000000
+  _lootDropCount: 0a000000

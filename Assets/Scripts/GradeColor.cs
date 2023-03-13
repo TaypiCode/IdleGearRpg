@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemGradeColor : MonoBehaviour
+public class GradeColor : MonoBehaviour
 {
     [SerializeField] private Color[] _color;
     private static Color[] _staticColor;

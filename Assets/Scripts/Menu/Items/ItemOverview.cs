@@ -20,7 +20,7 @@ public class ItemOverview : MonoBehaviour
         string newString = "\n";
         _itemOverviewText.text = item.ItemScriptable.ItemName + newString;
         _itemOverviewImage.sprite = item.ItemScriptable.Sprite;
-        _itemOverviewGradeImage.color = ItemGradeColor.GetGradeColor(item.ItemGrade);
+        _itemOverviewGradeImage.color = GradeColor.GetGradeColor(item.ItemGrade);
         if (item.ItemScriptable is UpgradeItemScriptable)
         {
             UpgradeItemScriptable upgradeData = item.ItemScriptable as UpgradeItemScriptable;
@@ -37,7 +37,7 @@ public class ItemOverview : MonoBehaviour
                     _itemOverviewUpgradeProgressSlider.value = item.UpgradeXP;
                     _itemOverviewUpgradeProgressText.text = _itemOverviewUpgradeProgressSlider.value + "/" + _itemOverviewUpgradeProgressSlider.maxValue;
                 }
-                _itemOverviewUpgradeProgressSliderFillImg.color = ItemGradeColor.GetGradeColor(item.ItemGrade);
+                _itemOverviewUpgradeProgressSliderFillImg.color = GradeColor.GetGradeColor(item.ItemGrade);
                 _itemOverviewUpgradeProgressCanvas.SetActive(true);
             }
             else

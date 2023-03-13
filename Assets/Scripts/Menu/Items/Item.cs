@@ -28,7 +28,8 @@ public class Item : MonoBehaviour
     {
         Character,
         Inventory,
-        Upgrade
+        Upgrade,
+        OnlyShow
     }
     public void Set(ItemScriptableObject item, InventoryType inventoryType, int itemGrade = 1, int xp = 0, int itemsCount = 1, bool inInventory = true)
     {
@@ -122,18 +123,18 @@ public class Item : MonoBehaviour
     }
     public void Select()
     {
+        FindObjectOfType<ItemOverview>().ShowItemOverview(this);
         if (_inInventory)
         {
-            FindObjectOfType<ItemOverview>().ShowItemOverview(this);
             _useBtn.SetActive(_itemScriptable.Usable);
             _deleteBtn.SetActive(true);
         }
     }
     public void UnSelect()
     {
+        FindObjectOfType<ItemOverview>().HideItemOverview();
         if (_inInventory)
         {
-            FindObjectOfType<ItemOverview>().HideItemOverview();
             _useBtn.SetActive(false);
             _deleteBtn.SetActive(false);
         }
@@ -151,7 +152,7 @@ public class Item : MonoBehaviour
             return;
         }
         _itemGrade = grade;
-        _itemGradeImage.color = ItemGradeColor.GetGradeColor(_itemGrade);
+        _itemGradeImage.color = GradeColor.GetGradeColor(_itemGrade);
     }
     public void ChangeCount(int val)
     {

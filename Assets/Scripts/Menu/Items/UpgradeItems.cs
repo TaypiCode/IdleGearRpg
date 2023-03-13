@@ -121,7 +121,7 @@ public class UpgradeItems : MonoBehaviour
                     _xpSlider.value = newXp;
                     _xpSliderText.text = _xpSlider.value + "/" + _xpSlider.maxValue;
                 }
-                _xpSliderFillImg.color = ItemGradeColor.GetGradeColor(newGrade);
+                _xpSliderFillImg.color = GradeColor.GetGradeColor(newGrade);
                 _xpSlider.gameObject.SetActive(true);
                 _upgradeBtn.SetActive(true);
             }
@@ -142,7 +142,7 @@ public class UpgradeItems : MonoBehaviour
                     _xpSlider.value = mainItem.UpgradeXP;
                     _xpSliderText.text = _xpSlider.value + "/" + _xpSlider.maxValue;
                 }
-                _xpSliderFillImg.color = ItemGradeColor.GetGradeColor(mainItem.ItemGrade);
+                _xpSliderFillImg.color = GradeColor.GetGradeColor(mainItem.ItemGrade);
                 _xpSlider.gameObject.SetActive(true);
                 _upgradeBtn.SetActive(false);
             }

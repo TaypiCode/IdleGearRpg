@@ -15,4 +15,5 @@ public static class PlayerData
     public static int[] lootDropCount;
     public static ItemScriptableObject[] lootRewardFromDungeon;
     public static int[] lootRewardCountFromDungeon;
+    public static int lastSelectedDungeonId;
 }

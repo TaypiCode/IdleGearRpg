@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cf007b5b610064b94b086d818fa730, type: 3}
+  m_Name: DungeonScriptable 1
+  m_EditorClassIdentifier: 
+  itemId: f723f960-64b9-4c02-8d4d-5adc219bebb1
+  _dungeonName: dung2
+  _dungeonDescription: desctdfsfsdfasdfasd
+  _sprite: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}
+  _grade: 1
+  _enemies:
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  - {fileID: 11400000, guid: 82f7bd5972df98f4fba2421433858484, type: 2}
+  _loot:
+  - {fileID: 11400000, guid: a000c26659c14574eaf443a5c6f396f7, type: 2}
+  - {fileID: 11400000, guid: 23e31a8eb883c6c4aa76e05358bea01c, type: 2}
+  - {fileID: 11400000, guid: 29324091ba879e64a950ff1ebc20746d, type: 2}
+  _lootDropChance:
+  - 25
+  - 25
+  - 25
+  _lootDropCount: 010000000100000001000000

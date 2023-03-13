@@ -8,6 +8,7 @@ public class DungeonScriptableObject : ScriptableObject
     [SerializeField] private string _dungeonName;
     [SerializeField] private string _dungeonDescription;
     [SerializeField] private Sprite _sprite;
+    [SerializeField] private int _grade;
     [SerializeField] private AIScriptableObject[] _enemies;
     [SerializeField] private ItemScriptableObject[] _loot;
     [SerializeField] private float[] _lootDropChance;
@@ -20,4 +21,5 @@ public class DungeonScriptableObject : ScriptableObject
     public ItemScriptableObject[] Loot { get => _loot; }
     public float[] LootDropChance { get => _lootDropChance; }
     public int[] LootDropCount { get => _lootDropCount;  }
+    public int Grade { get => _grade; }
 }

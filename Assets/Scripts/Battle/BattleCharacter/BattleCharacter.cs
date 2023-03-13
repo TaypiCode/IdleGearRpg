@@ -89,6 +89,10 @@ public class BattleCharacter : MonoBehaviour
     }
     private void CooldownSimpleAttack()
     {
+        if(_usedAttackSpeed <= 0)
+        {
+            _usedAttackSpeed = 0.001f;
+        }
         _attackTimer.SetTimer(60 / _usedAttackSpeed); //attacks per min
     }
     public void GetDamage(float val)
