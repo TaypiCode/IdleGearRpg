@@ -8,6 +8,7 @@ public class SaveGame : MonoBehaviour
 {
     [SerializeField] private Inventory _inventory;
     [SerializeField] private CharacterItems _characterItems;
+    [SerializeField] private Promocode _promocode;
     private Save save = new Save();
 
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -26,9 +27,12 @@ public class SaveGame : MonoBehaviour
         save.playerItemsItemId = _inventory.GetPlayerItemsItemId();
         save.playerItemsItemGrade = _inventory.GetPlayerItemsGrade();
         save.playerItemsItemXP= _inventory.GetPlayerItemsXP();
+
         save.characterItemsItemId = _characterItems.GetItemsId();
         save.characterItemsItemGrade = _characterItems.GetItemsGrade();
         save.characterItemsItemXP = _characterItems.GetItemsXP();
+
+        save.activatedPromocodes = _promocode.GetActivatedPromocodes();
 
         PlayerPrefs.SetString("SV", JsonUtility.ToJson(save));
         PlayerPrefs.Save();
@@ -44,4 +48,5 @@ public class Save
     public string[] characterItemsItemId;
     public int[] characterItemsItemGrade;
     public int[] characterItemsItemXP;
+    public string[] activatedPromocodes;
 }
