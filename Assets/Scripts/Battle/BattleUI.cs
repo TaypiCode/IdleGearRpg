@@ -10,6 +10,7 @@ public class BattleUI : MonoBehaviour
     [Header("EndGame")]
     [SerializeField] private GameObject _endGameCanvas;
     [SerializeField] private TextMeshProUGUI _winLoseText;
+    [SerializeField] private BattleLootRewardShower _lootShower;
     public void ToMainMenu()
     {
         SceneManager.LoadScene(0);
@@ -25,11 +26,7 @@ public class BattleUI : MonoBehaviour
         {
             _winLoseText.text = "Вы выиграли";
 
-            ItemScriptableObject[] loot = PlayerData.lootRewardFromDungeon;
-            int[] lootCount = PlayerData.lootRewardCountFromDungeon;
-
-
-            //show loot
+            _lootShower.StartShowLoot();
         }
         else
         {
